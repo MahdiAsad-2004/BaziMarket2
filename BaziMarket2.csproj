@@ -322,6 +322,7 @@
     <Content Include="Images\local\whatsapp.png" />
     <Content Include="Images\local\zarinpall1.png" />
     <Content Include="Images\product-image\product.png" />
+    <Content Include="Images\user-image\user.png" />
     <Content Include="plugins\bootstrap-slider\bootstrap-slider.js" />
     <Content Include="plugins\bootstrap-slider\slider.css" />
     <Content Include="plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.all.js" />
@@ -1365,7 +1366,6 @@
     <Folder Include="Images\category-image\" />
     <Folder Include="Images\description-image\" />
     <Folder Include="Images\product-pictures\" />
-    <Folder Include="Images\user-image\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202306110708333_CreateDatabase1.resx">
