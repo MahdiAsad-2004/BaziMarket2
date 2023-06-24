@@ -1,0 +1,383 @@
+﻿@model IEnumerable<BaziMarket2.Models.UserListViewModel>
+
+
+<div id="asdf" class="hold-transition sidebar-mini ">
+    <div class="wrapper">
+        <nav style="background-color: #007bff !important;" class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="@Url.Action("Panel","Admin",null,Request.Url.Scheme)" class="nav-link">پنل مدیریت</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a class="nav-link">تماس</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="https://localhost:44322/" class="brand-link bg-danger">
+                <img src="~/Images/local/Layer 9.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                     style="opacity: .8">
+                <span class="brand-text font-weight-light">بازی مارکت</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div>
+                    <!-- Sidebar user panel (optional) -->
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div class="info">
+                            <p class="text-white">@ViewBag.AdminName</p>
+                        </div>
+                        <div class="image" style="margin-right:40px;">
+                            <img src="~/Images/user-image/@ViewBag.AdminImage" class="img-circle" style="width:50px; height:50px;" alt="User Image">
+                        </div>
+                    </div>
+
+                    <!-- Sidebar Menu -->
+                    <nav class="mt-2">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                            <!-- Add icons to the links using the .nav-icon class
+                        with font-awesome or any other icon font library -->
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("Panel","Admin",null,Request.Url.Scheme)" class="nav-link" style=" margin-top: 10px;">
+                                    <i class="nav-icon fa fa-bars"></i>
+                                    <p>
+                                        صفحه ی اصلی
+                                    </p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item" style="background-color: #dc3545; margin-top: 10px;">
+                                <a href="https://localhost:44322/Admin/Users/AllUsers" class="nav-link">
+                                    <i class="nav-icon fa fa-users"></i>
+                                    <p>
+                                        لیست کاربران
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item" style="margin-top: 10px;">
+                                <a href="@Url.Action("RegisterUser","Users",null,Request.Url.Scheme)" class="nav-link">
+                                    <i class="nav-icon fa fa-user-plus"></i>
+                                    <p>
+                                        ثبت نام کاربر جدید
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item" style="margin-top: 10px;">
+                                <a href="@Url.Action("AllProducts","Products",null,Request.Url.Scheme)" class="nav-link">
+                                    <i class="nav-icon fa fa-cubes"></i>
+                                    <p>
+                                        لیست محصولات
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item" style="margin-top: 10px;">
+                                <a href="@Url.Action("AddProduct","Products",null,Request.Url.Scheme)" style="display:flex" class="nav-link">
+                                    <span style="margin-left:7px;" class="material-symbols-outlined">deployed_code_update</span>
+                                    <p>
+                                        افزودن محصول جدید
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item" style="margin-top: 10px;">
+                                <a href="@Url.Action("AddCategory","Category",null,Request.Url.Scheme)" style="display:flex;" class="nav-link">
+                                    <span style="margin-left:7px;" class="material-symbols-outlined">create_new_folder</span>
+                                    <p>
+                                        افزودن دسته بندی
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item" style="margin-top: 10px;">
+                                <a href="@Url.Action("AddDiscount","Discounts",null,Request.Url.Scheme)" class="nav-link">
+                                    <i class="nav-icon fa fa-tags"></i>
+                                    <p>
+                                        ثبت کد تخفیف
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- /.sidebar-menu -->
+                </div>
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0 text-dark">لیست کابران</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-left">
+                                <li><a style="text-decoration:none;" href="https://localhost:44322/Admin/Admin/Panel">پنل مدیر</a></li>
+                                <li style="padding-left:8px; padding-right:8px;">/</li>
+                                <li class="">لیست کاربران</li>
+                            </ol>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+            <!-- Main content -->
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">لیست</h3>
+
+                                    <div class="card-tools">
+                                        <div class="input-group input-group-sm" style="width: 230px;">
+                                            <input type="text" name="search" id="search" class="form-control float-right" value="@ViewBag.Search" placeholder="جستجو">
+                                            <div class="input-group-append">
+                                                <button onclick="SubmitSearch()" type="button" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-tools" style="margin-left: 280px;">
+                                        <div class="input-group input-group-sm" style="width: 230px;">
+                                            <select class="form-control float-right" name="sort" id="sort">
+                                                <option value="">پیشفرض</option>
+                                                @if (ViewData["Sorts"] != null)
+                                                {
+                                                    foreach (var item in ViewData["Sorts"] as List<BaziMarket2.OtherClases.Sort>)
+                                                    {
+                                                        if (ViewBag.Sort == item.Id)
+                                                        {
+                                                            <option selected value="@item.Id">@item.Name</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item.Id">@item.Name</option>
+                                                        }
+                                                    }
+                                                }
+                                            </select>
+                                            <div class="input-group-append">
+                                                <button onclick="SubmitSort()" type="button" class="btn btn-default"><span style="font-size: 21px; color: rgb(0, 180, 0);" class="material-symbols-outlined">done_outline</span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body table-responsive p-0">
+                                    <table class="table table-hover" style="font-size:14px;">
+                                        <tr>
+                                            <th style="padding-right: 30px;">نام کاربری</th>
+                                            <th style="padding-right: 50px;">نام</th>
+                                            <th style="padding-right: 50px;">نقش</th>
+                                            <th style="padding-right: 50px;">عضویت</th>
+                                            <th style="padding-right: 50px;">وضعیت</th>
+                                            <th style="padding-right:100px;">آدرس</th>
+                                            <th>عکس</th>
+                                            <th>حذف</th>
+                                        </tr>
+                                        @foreach (var item in Model)
+                                        {
+                                            string name = item.FirstName + " " + item.LastName;
+                                            <tr>
+                                                <td style="padding-right: 30px;">@item.Username</td>
+                                                <td style="padding-right: 50px;">@name</td>
+                                                <td style="padding-right: 50px;">@item.Role.Title</td>
+                                                <td style="padding-right: 50px;">@item.RegisterDate</td>
+                                                <td style="padding-right: 50px;">
+                                                    @if (item.IsActive)
+                                                    {
+                                                        <button style="cursor: pointer; width: 55px; height: 25px;" type="button" class="badge badge-success" onclick="ChangeUserActive(Id = @item.Id)">فعال</button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button style="cursor: pointer; width: 55px; height: 25px;" type="button" class="badge badge-danger" onclick="ChangeUserActive(Id = @item.Id)">غیر فعال</button>
+                                                    }
+                                                </td>
+                                                <td style="padding-right: 100px;"><p style="width: 300px; height: 50px; overflow: auto; font-size: 13px;">@item.Address</p></td>
+                                                <td><img style="width: 50px; height: 50px; border-radius:45%;" src="~/images/user-image/@item.ProfileImage" alt=""></td>
+                                                <td style="padding-top: 20px;"><form style="border-radius: 4px;" class="bg-danger text-white"><button style="font-size: 13px;" class="btn bg-danger" type="button" onclick="SureForDelete(username =@item.Username)">حذف کاربر</button><p id="confirmResult"></p></form></td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer clearfix">
+                                    <ul class="pagination pagination-sm m-0 float-right ">
+                                        @if (ViewBag.CurrentPage > 1)
+                                        {
+                                            <li class="page-item"><a class="page-link" onclick="GoPage(page = @ViewBag.CurrentPage-1)">&raquo;</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li class="page-item"><a class="page-link">&raquo;</a></li>
+                                        }
+                                        @for (int i = 1; i <= ViewBag.PageCount; i++)
+                                        {
+                                            if (i == ViewBag.CurrentPage)
+                                            {
+                                                <li class="page-item active"><a class="page-link">@i</a></li>
+                                            }
+                                            else
+                                            {
+                                                <li class="page-item"><a class="page-link" onclick="GoPage(page = @i)">@i</a></li>
+                                            }
+                                        }
+                                        @if (ViewBag.CurrentPage < ViewBag.PageCount)
+                                        {
+                                            <li class="page-item"><a class="page-link" onclick="GoPage(page = @ViewBag.CurrentPage+1)">&laquo;</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li class="page-item"><a class="page-link">&laquo;</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+                            <script>
+                                function ChangeUserActive(Id) {
+                                    //var Id = $("#UserId").val();
+                                    $.ajax({
+                                        url: 'https://localhost:44322/Admin/Users/ChangeUserActive',
+                                        type: 'POST',
+                                        data: { UserId: Id },
+                                        success: function (res) {
+                                            $("#asdf").html(res);
+                                            Id = 0;
+                                        },
+                                        error: function () {
+                                            alert("No");
+                                        }
+                                    })
+                                }
+                            </script>
+
+
+                            <script>
+                                function SureForDelete(name) {
+                                    var username = '0' + name;
+                                    let text = "آیا مطمئن هستید که می خواهید کاربر با نام کاربری ''" + username + "'' را حذف کنید ؟";
+                                    if (confirm(text) == true) {
+                                        $.ajax({
+                                            url: 'DeleteUser',
+                                            type: 'POST',
+                                            data: { username: username },
+                                            success: function (res) {
+                                                if (res != "false") {
+                                                    alert("کاربر ''" + username + "'' با موفقیت حذف شد");
+                                                    $("#body").html(res);
+                                                }
+                                                else {
+                                                    alert(res);
+                                                }
+                                            },
+                                            error: function (ts) {
+                                                $("#body").html(ts.responseText);
+                                            }
+                                        });
+                                    }
+                                }
+                            </script>
+
+
+
+
+                            <script>
+
+                                function SubmitSort() {
+
+                                    var sort = $('#sort option:selected').val();
+                                    var search = $('#search').val();
+                                    $.ajax({
+                                        url: 'AllUsersFilter',
+                                        type: 'POST',
+                                        data: { search: search, sort: sort, page: 1 },
+                                        success: function (data) {
+                                            $("#body").html(data);
+                                        },
+                                        error: function (ts) {
+                                            $("#body").html(ts.responseText);
+                                        }
+                                    });
+                                }
+
+                                function SubmitSearch() {
+                                    var search = $('#search').val();
+                                    $.ajax({
+                                        url: 'AllUsersFilter',
+                                        type: 'POST',
+                                        data: { search: search, sort: null, page: 1 },
+                                        success: function (data) {
+                                            $("#body").html(data);
+                                        },
+                                        error: function (ts) {
+                                            $("#body").html(ts.responseText);
+                                        }
+                                    });
+                                }
+
+                                function GoPage(page) {
+                                    var search = $('#search').val();
+                                    var sort = $('#sort option:selected').val();
+                                    $.ajax({
+                                        url: 'AllUsersFilter',
+                                        type: 'POST',
+                                        data: { search: search, sort: sort, page: page },
+                                        success: function (data) {
+                                            $("#body").html(data);
+                                        },
+                                        error: function (ts) {
+                                            $("#body").html(ts.responseText);
+                                        }
+                                    });
+                                }
+
+                            </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        </div>
+
+
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.container-fluid -->
+                </div>
+                <!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
+        </div>
+        <!-- ./wrapper -->
+        <!-- REQUIRED SCRIPTS -->
+        <!-- jQuery -->
+    </div>

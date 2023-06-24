@@ -1,0 +1,149 @@
+﻿@model IEnumerable<BaziMarket2.Models.Product>
+
+<main class="UserPanel" style="width: 97%; height: auto; background-color: #edf2f4;">
+
+    <ul class="sideBar">
+        <li>
+            <a href="">
+                <span class="material-symbols-outlined">account_box</span>  مشخصات
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <span class="material-symbols-outlined">vpn_key_alert</span>  رمز عبور
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <span class="material-symbols-outlined">order_approve</span>  سفارش ها
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <span class="material-symbols-outlined">notifications</span>  اطلاعیه ها و اخبار
+            </a>
+        </li>
+        <li>
+            <a href="" style="background-color: #e8293f; color: white;">
+                <span class="material-symbols-outlined">bookmark</span>  لیست ها
+            </a>
+        </li>
+    </ul>
+
+
+
+
+    <div style="border-radius: 10px; width: 82%; height: 90%; background-color: #edf2f4;">
+        <!-- Account details card-->
+        <div class="card-header" style="padding:0px; padding-top:20px;">
+          <p style="padding-right: 20px; border-radius: 10px; width: 100%; height: 50px; background-color: white; display: flex; align-items: center;">
+            علاقه مندی ها    
+          </p>
+        </div>
+        <div class="card" style="background-color: #edf2f4;">
+            <div style="padding:30px; display: flex; flex-wrap: wrap; background-color: #edf2f4; justify-content: flex-start;" class="card-body">
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        <div class="products-product" style="width:265px; height:345px; border:none;">
+                            <div class="product-lables">
+                                @if (item.InStockCount < 1)
+                                {
+                                    <p class="product-lables-available">ناموجود</p>
+                                }
+                                @if (item.Discount != null)
+                                {
+                                    <p class="product-lables-discount">@item.Discount %</p>
+                                }
+                            </div>
+                            <a href="https://localhost:44322/Product/Product/@item.EncodeName()" class="product-Image">
+                                <img src="~/images/product-image/@item.Image" alt="">
+                            </a>
+                            <div class="product-Title">
+                                <a class="products-product-a" href="https://localhost:44322/Product/Product/@item.EncodeName()">@item.Name</a>
+                            </div>
+                            <div class="product-Price">
+                                @if (item.Discount == null)
+                                {
+                                    <p class="product-Price-New"><b>@item.Price.DevideMoneyNumber()</b>&ensp;تومان</p>
+                                }
+                                else
+                                {
+                                    <p class="product-Price-Old"><ins>@item.GetPrice().DevideMoneyNumber()</ins> تومان</p>
+                                    <p class="product-Price-New"><b>@item.Price.DevideMoneyNumber()</b> تومان</p>
+                                }
+                            </div>
+                            <div style="width: 90%; height: 30px; display: flex; justify-content: space-between; margin-top: 2px;">
+                                <form  style="width: 48%; display: flex; align-items:flex-start;">
+                                    <button onclick="AddToCart(productId = @item.Id)" type="button" style="background-color: inherit; border:none; font-size: 26px; color:rgb(0, 175, 0) ;">
+                                        <i class="bi bi-cart-plus"></i>
+                                    </button>
+                                </form>
+
+                                <form  style="width: 48%;">
+                                    <button onclick="RemoveFromWishlist(productId = @item.Id)" type="button" style="background-color: inherit; border:none; float: left; font-size: 25px; color: red;">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
+                                </form>
+
+                            </div>
+                        </div>
+
+                    }
+                }
+                else
+                {
+                    <h3>
+                        لیست شما خالی است !
+                    </h3>
+
+                    <a href="https://localhost:44322//Product/Products/" style="width:130px; height:60px; background-color:darkblue; color:white; display:flex; text-decoration:none; margin-right:50px; margin-bottom:20px; justify-content:center; align-items:center; border-radius:10px;">
+                        مشاهده محصولات
+                    </a>
+                }
+
+            </div>
+        </div>
+    </div>
+</main>
+
+
+
+
+<script>
+
+    function AddToCart(productId) {
+        $.ajax({
+            url: 'https://localhost:44322/Product/AddToCart',
+            type: 'POST',
+            data: { productId: productId, productCount: 1 },
+            success: function (res) {
+                if (res != "false") {
+                    //alert(res);
+                    $("#navBar").html(res);
+                }
+            },
+            error: function (ts) {
+                $("#body").html(ts.responseText);
+            }
+        });
+    }
+
+    function RemoveFromWishlist(productId) {
+        $.ajax({
+            url: 'https://localhost:44322/Product/RemoveFromWishlist',
+            type: 'POST',
+            data: { productId: productId},
+            success: function (res) {
+                if (res != "false") {
+                    $("#body").html(res);
+                }
+            },
+            error: function (ts) {
+                $("#body").html(ts.responseText);
+            }
+        });
+    }
+
+</script>

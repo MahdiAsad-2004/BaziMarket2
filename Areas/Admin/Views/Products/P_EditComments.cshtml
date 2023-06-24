@@ -1,0 +1,61 @@
+﻿@model List<BaziMarket2.Models.ViewModel.CommentEditViewModel> 
+
+
+<div class="card-header">
+    <h3 style="font-size: 22px;" class="card-title">نظرات</h3>
+
+    <div class="card-tools">
+        <button type="button" class="btn btn-tool" data-widget="collapse" style="width: 100px;">
+            <span style="font-size: 22px; color: #007bff;" class="material-symbols-outlined">add</span>
+        </button>
+    </div>
+    <!-- /.card-tools -->
+</div>
+<!-- /.card-header -->
+<div class="card-body">
+    <div class="card" style="border:4px solid  #deeeff;">
+        <div class="card-header" style="background-color: #deeeff;">
+            <h3 style="font-size: 18px;">نظرات محصول</h3>
+        </div>
+        <div class="cardbod">
+            <table class="table table-hover table-bordered" style="font-size: 14px;">
+                <tr>
+                    <th>کاربر</th>
+                    <th>متن</th>
+                    <th>امتیاز</th>
+                    <th>تاریخ ثبت</th>
+                    <th>وضعیت</th>
+                    <th>حذف</th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr style="border-bottom: solid 2px gray; padding-top: 10px; padding-bottom: 10px;">
+                        <td>@item.User.Username</td>
+                        <td>@item.Text</td>
+                        <td style="width: 90px;">
+                            @for (int i = 1; i <= item.Rate; i++)
+                            {
+                                <i style="color: gold;" class="bi bi-star-fill"></i>
+                            }
+                        </td>
+                        <td>@item.RegisterDate</td>
+                        <td>
+                            @if (item.IsActive)
+                            {
+                                <button onclick="ChangeCommentIsActive(Id = @item.Id)" style="cursor: pointer; width: 55px; height: 25px;" type="button" class="badge badge-success">فعال</button>
+                            }
+                            else
+                            {
+                                <button onclick="ChangeCommentIsActive(Id = @item.Id)" style="cursor: pointer; width: 55px; height: 25px;" type="button" class="badge badge-danger">غیر فعال</button>
+                            }
+                        </td>
+                        <td class="col-1"><button onclick="DeleteComment(Id = @item.Id)" class="btn " style="background-color: inherit; width: 30px; height: 30px;"><span style="color: red; font-size: 30px;" class="material-symbols-outlined">delete_forever</span></button></td>
+                    </tr>
+                }
+            </table>
+
+        </div>
+
+    </div>
+</div>
+<!-- /.card-body -->

@@ -1,0 +1,625 @@
+﻿@model BaziMarket2.Models.Product
+@{
+    ViewBag.Title = "Product";
+}
+
+
+@if (User.Identity.IsAuthenticated)
+{
+    <input id="IsAuthenticated"  type="text" hidden readonly value="true"/>
+}
+
+
+
+<p class="categoryAddress">
+    <a href="https://localhost:44322/" target="_blank">خانه</a>
+    /
+    <a href="https://localhost:44322//Product/Products/" target="_blank">محصولات</a>
+    /
+    @if (Model.Category != null)
+    {
+        <a href="@Url.Action("Products", "Product", new {category = Model.Category.Name})" target="_blank">@Model.Category.Name</a>
+        <span>/</span>
+    }
+    <a href="">@Model.Name</a>
+</p>
+
+
+<div class="productPage">
+    <div class="productPage-slide">
+        <div class="slideshow-container">
+            @{
+                int i = 1;
+                if (Model.Pictures != null)
+                {
+                    foreach (var item in Model.Pictures)
+                    {
+                        <div class="mySlides">
+                            <div class="numbertext">@Model.Pictures.Count / @i</div>
+                            <img src="~/Images/product-pictures/@item.Name" style="width:100%">
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="mySlides">
+                        <div class="numbertext">1</div>
+                        <img src="~/images/product-pictures/productImage.png" style="width:100%">
+                    </div>
+                }
+            }
+
+
+            <a class="prev" onclick="plusSlides(-1)">❮</a>
+            <a class="next" onclick="plusSlides(1)">❯</a>
+
+        </div>
+        <br>
+
+        <div style="text-align:center">
+            @{
+                if (Model.Pictures != null)
+                {
+                    for (int j = 1; j <= Model.Pictures.Count; j++)
+                    {
+                        <span class="dot" onclick="currentSlide(@j)"></span>
+                    }
+                }
+                else
+                {
+                    <span class="dot" onclick="currentSlide(1)"></span>
+                }
+            }
+        </div>
+
+        <script>
+            let slideIndex = 1;
+            showSlides(slideIndex);
+
+            function plusSlides(n) {
+                showSlides(slideIndex += n);
+            }
+
+            function currentSlide(n) {
+                showSlides(slideIndex = n);
+            }
+
+            function showSlides(n) {
+                let i;
+                let slides = document.getElementsByClassName("mySlides");
+                let dots = document.getElementsByClassName("dot");
+                if (n > slides.length) { slideIndex = 1 }
+                if (n < 1) { slideIndex = slides.length }
+                for (i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+                for (i = 0; i < dots.length; i++) {
+                    dots[i].className = dots[i].className.replace(" active", "");
+                }
+                slides[slideIndex - 1].style.display = "block";
+                dots[slideIndex - 1].className += " active";
+            }
+        </script>
+    </div>
+    <div class="productPage-text">
+        <h2>@Model.Name</h2>
+        <div class="productPage-text-property">
+            <h4>مشخصات کلی</h4>
+            <ul>
+                @if (Model.Properties != null)
+                {
+                    foreach (var item in Model.Properties)
+                    {
+                        <li>@item.Text</li>
+                    }
+                }                
+            </ul>
+            <div>
+                @if (Model.Users.Any(t => t.Username == User.Identity.Name))
+                {
+                <form>
+                    <label>حذف از علاقه مندی ها</label>
+                    <button onclick="RemoveFromWishlist(productId = @Model.Id)" class="button2" type="button" style="background-color:white; border:none; width:auto; height:auto;"><span style="color:red;" class="material-symbols-outlined span2">heart_check</span></button>
+                </form>
+                }
+                else
+                {
+                <form>
+                    <label>افزودن به علاقه مندی ها</label>
+                    <button onclick="AddToWishlist(productId = @Model.Id)" class="button1" type="button" style="background-color:white; border:none; width:auto; height:auto;"><span class="material-symbols-outlined">heart_plus</span></button>
+                </form>
+                }
+
+                <p>
+                    همرسانی : &ensp;
+                    <a href=""><i class="bi bi-telegram"></i></a>
+                    <a href=""><i class="bi bi-whatsapp"></i></a>
+                    <a href=""><i class="bi bi-linkedin"></i></a>
+                    <a href=""><i class="bi bi-twitter"></i></a>
+                    <a href=""><i class="bi bi-facebook"></i></a>
+                </p>
+            </div>
+        </div>
+        <div class="productPage-text-cart">            
+            <p>
+                امتیاز محصول
+            </p>
+           
+            <div class="productPage-text-cart-rate">
+                @{
+                    float x = Model.CalculateRate(out int RateInt);
+                    
+                    if (x == -1)
+                    {
+                        for (int k = 1; k <= 5; k++)
+                        {
+                            <i class="bi bi-star"></i>
+                        }
+                    }
+                    else
+                    {
+                        for (int z = 1; z <= RateInt; z++)
+                        {
+                            <i class="bi bi-star-fill"></i>
+                        }
+                        if (x >= 5)
+                        {
+                            <i class="bi bi-star-half"></i>
+                            for (int j = 1; j < 5 - RateInt; j++)
+                            {
+                                <i class="bi bi-star"></i>
+                            }
+                        }
+                        else
+                        {
+                            for (int j = 1; j <= 5 - RateInt; j++)
+                            {
+                                <i class="bi bi-star"></i>
+                            }
+                        }
+                    }
+                }
+                <span style="margin-left: 5px;">(@Model.Comments.Where(t => t.IsActive).Count())</span>
+            </div>
+            <ul>
+                <li> <i class="bi bi-check-circle" style="margin-left: 5px; margin-top: 6px; color: blueviolet;"></i> 10 روز ضمانت بازگشت کالا </li>
+                <li>
+                    @if (Model.Discount != null)
+                    {
+                        <p class="product-lables-discount" style="width:100%; font-family:'vazir'; justify-content:right; padding-left:15px; background-color:inherit; color:black; font-size:25px; margin-bottom:20px; margin-top:10px;">تخفیف <span style="font-family:'13'; margin-right:8px; font-size:25px;">@Model.Discount %</span></p>
+                    }
+                    <div class="product-Price" style="justify-content:space-between;">
+                        @if (Model.Discount == null)
+                        {
+                            <p style="font-size:25px;" class="product-Price-New"><b style="font-size:25px;">@Model.Price.DevideMoneyNumber()</b>&ensp;تومان</p>
+                        }
+                        else
+                        {
+                            <p style="font-size:25px;" class="product-Price-Old"><ins style="font-size:25px;">@Model.Price.DevideMoneyNumber()</ins> تومان</p>
+                            <p style="font-size:25px;" class="product-Price-New"><b style="font-size:25px;">@Model.GetPrice().DevideMoneyNumber()</b> تومان</p>
+                        }
+                    </div>
+                </li>
+
+                <li style="  font-size: 20px; text-align: right; padding-right: 8px;">
+                    موجودی :
+                    @if (Model.InStockCount > 0)
+                    {
+                        <span style="color: forestgreen;">موجود</span>
+                    }
+                    else
+                    {
+                        <span style="color: red;">ناموجود</span>
+                    }
+                </li>
+                @if (Model.InStockCount > 0 )
+                {
+                    <li>
+                        <form action="AddProductToCart" method="post">
+                            <label for="ProductCount"> تعداد </label>
+                            <input type="number" name="productCount" value="1" id="productCount" min="1" max="@Model.InStockCount">
+                            <button onclick="AddToCart(prodcutId = @Model.Id)" type="button"> <i class="bi bi-cart-plus" style="color:white;"></i> افزودن به سبد خرید </button>
+                        </form>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="product-tab">
+    <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">توضیحات</button>
+    <button class="tablinks" onclick="openCity(event, 'Paris')">مشخصات</button>
+    @if (ViewBag.TabNumber == 3)
+    {
+        <button class="tablinks" onclick="openCity(event, 'Tokyo')" id="defaultOpen1">نظرات</button>
+
+    }
+    else
+    {
+        <button class="tablinks" onclick="openCity(event, 'Tokyo')">نظرات</button>
+
+    }
+    @if (ViewBag.TabNumber == 4)
+    {
+        <button class="tablinks" onclick="openCity(event, 'Tehran')" id="defaultOpen1">پرسش و پاسخ</button>
+    }
+    else
+    {
+        <button class="tablinks" onclick="openCity(event, 'Tehran')">پرسش و پاسخ</button>
+    }
+</div>
+
+
+
+
+@if (Model.Descriptions != null)
+{
+    <div id="London" class="product-tab-content product-tab-description">
+        @foreach (var item in Model.Descriptions)
+        {
+            <h4 style="width:100%">@item.Title</h4>
+            <p>@item.Text</p>
+            <figure>
+                <img src="~/Images/description-image/@item.Image" alt="">
+            </figure>
+        }
+    </div>
+}
+
+
+
+
+
+
+@if (Model.Specifications != null)
+{
+    <div id="Paris" class="product-tab-specification  product-tab-content">
+        @foreach (var item in Model.Specifications)
+        {
+            <div>
+                <p>@item.Title</p>
+                <p>@item.Text</p>
+            </div>
+        }
+    </div>
+}
+
+
+
+
+
+
+<div id="Tokyo" class="product-tab-content  product-comments">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <form id="commentForm">
+            <h5 style="width: 100%; margin: 0%; ">دیدگاه شما درباره به این کالا چیست ؟ </h5>
+            <label style="margin: 0%; margin-top: 6px; margin-left: 20px;" for="">امتیاز شما به این محصول </label>
+            <div class="rate" style=" margin: 0%">
+                <input type="radio" id="star5" name="rate" value="5"/>
+                <label for="star5" title="text">5 stars</label>
+                <input type="radio" id="star4" name="rate" value="4" />
+                <label for="star4" title="text">4 stars</label>
+                <input type="radio" id="star3" name="rate" value="3" />
+                <label for="star3" title="text">3 stars</label>
+                <input type="radio" id="star2" name="rate" value="2" />
+                <label for="star2" title="text">2 stars</label>
+                <input type="radio" id="star1" name="rate" value="1" />
+                <label for="star1" title="text">1 star</label>
+            </div>
+            <div style="width: 100%; height: auto; display: flex; flex-direction: column; margin: 0%;">
+                <label for="CommentText">متن نظر شما</label>
+                <textarea required name="commentText" id="commentText" cols="30" rows="10" placeholder="متن مورد نظر خود را بنویسید" maxlength="120"></textarea>
+            </div>
+            <input type="number" id="productId" name="productId" value="@Model.Id" hidden/>
+            <button type="submit">ثبت نظر </button>
+
+        </form>
+    }
+    else
+    {
+        <p style="width:100%; display:flex; margin-bottom:30px;">
+            برای نظر دادن باید وارد شوید
+            <a href="https://localhost:44322/Home/Login?ReturnUrl=@HttpContext.Current.Request.Url.AbsoluteUri" style="width: 80px; height: 40px; border-radius: 12px; display: flex; justify-content: center; align-items: center; margin-right: 15px; background-color: orangered; color:white; text-decoration:none;">
+                ورود
+            </a>
+        </p>
+    }
+    <h5>نظرات</h5>
+    <h5 style="width: 100%; height: auto; padding-top: 25px; margin: 0%; border-top: 4px solid black; margin-bottom: 15px;">@Model.Comments.Where(t => t.IsActive).Count() دیدگاه برای محصول</h5>
+    @foreach (var item in Model.Comments.Where(t => t.IsActive).OrderByDescending(t => t.RegisterDate))
+    {
+    <div class="product-comments-comment">
+        <p>@item.User.FirstName  @item.User.LastName  (@item.RegisterDate)</p>
+        <p>@item.Text</p>
+        <p>
+            @for (int l = 1; l <= item.Rate; l++)
+            {
+                <i class="bi bi-star-fill"></i>
+            }
+        </p>
+    </div>
+    }
+</div>
+
+
+
+
+
+<div id="Tehran" class="product-tab-content product-questions">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <h5>پرسش و پاسخ</h5>
+        <form id="questionForm">
+            <label for="">پرسش خود را درباره این کالا بیان کنید</label>
+            <textarea name="questionText" id="questionText" cols="30" rows="10" required placeholder="متن پرسش مورد نطر خودرا بنویسید"></textarea>
+            <input id="productId" name="productId" type="number" value="@Model.Id" hidden readonly/>
+            <button type="submit"> ثبت پرسش</button>
+        </form>
+    }
+    else
+    {
+        <p style="width:100%; display:flex; margin-bottom:30px;">
+            برای پرسش باید وارد شوید
+            <a href="https://localhost:44322/Home/Login?ReturnUrl=@HttpContext.Current.Request.Url.AbsoluteUri" style="width: 80px; height: 40px; border-radius: 12px; display: flex; justify-content: center; align-items: center; margin-right: 15px; background-color: orangered; color:white; text-decoration:none;">
+                ورود
+            </a>
+        </p>
+    }
+    <h5 style="width: 100%; height: auto; padding-top: 25px; margin: 0%; border-top: 4px solid black; margin-bottom: 15px;">@Model.Questions.Where(t => t.IsActive).Count() پرسش برای محصول</h5>
+    @foreach (var item in Model.Questions.Where(t => t.IsActive).OrderByDescending(t => t.RegisterDate).ToList())
+    {
+    <div class="product-questions-question">
+        <p><b>سوال</b> @item.User.FirstName  @item.User.LastName (@item.RegisterDate)</p>
+        <p>@item.Text</p>
+        @if (item.Answer != null)
+        {
+            <p><strong>پاسخ</strong> @item.Answer.GetUserName()  (@item.Answer.RegisterDate)</p>
+            <p>@item.Answer.Text</p>
+        }
+    </div>
+    }
+
+
+</div>
+<script>
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("product-tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "flex";
+        evt.currentTarget.className += " active";
+    }
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+    document.getElementById("defaultOpen1").click();
+</script>
+
+
+
+
+@if (Model.Category!= null) 
+{  
+  <div class="product-relateds">
+
+      <h4 style="width: 100%; height: auto; margin: 0%; display: flex; justify-content: center; margin-bottom: 30px;">محصولات مرتبط</h4>
+
+      @{
+          var list = Model.Category.Products.ToList().OrderByDescending(t => t.InStockCount).Take(5);
+          foreach (var item in list)
+          {
+              <div class="products-product">
+                  <div class="product-lables">
+                      @if (item.InStockCount < 1)
+                      {
+                          <p class="product-lables-available">ناموجود</p>
+                      }
+                      @if (item.Discount != null)
+                      {
+                          <p class="product-lables-discount">@item.Discount %</p>
+                      }
+                  </div>
+                  <a href="https://localhost:44322/Product/Product/@item.EncodeName()" class="product-Image">
+                      <img src="~/Images/product-image/@item.Image" alt="">
+                  </a>
+                  <div class="product-Title">
+                      <a class="products-product-a" href="https://localhost:44322/Product/Product/@item.EncodeName()">@item.Name</a>
+                  </div>
+                  <div class="product-Price">
+                      @if (item.Discount == null)
+                      {
+                          <p class="product-Price-New"><b>@item.Price.DevideMoneyNumber()</b>&ensp;تومان</p>
+                      }
+                      else
+                      {
+                          <p class="product-Price-Old"><ins>@item.Price.DevideMoneyNumber()</ins> تومان</p>
+                          <p class="product-Price-New"><b>@item.GetPrice().DevideMoneyNumber()</b> تومان</p>
+                      }
+                  </div>
+              </div>
+          }
+      }
+
+  </div>
+
+}
+
+
+
+
+
+
+
+
+
+
+
+<script>
+        var isAuth = $("#IsAuthenticated").val();
+    function AddToWishlist(productId) {
+        if (isAuth != null && isAuth != "") {
+            $.ajax({
+                url: 'https://localhost:44322/Product/AddToWishlist',
+                type: 'POST',
+                data: { productId: productId },
+                success: function (res) {
+                    if (res != "false") {
+                        $("#body").html(res);
+                    }
+                },
+                error: function (ts) {
+                    $("#body").html(ts.responseText);
+                }
+            })
+        }
+        else {
+            window.location.assign("https://localhost:44322/Home/Login?ReturnUrl=@HttpContext.Current.Request.Url.AbsoluteUri");
+        }
+    }
+
+    function RemoveFromWishlist(prodcutId) {
+        if (isAuth != null && isAuth != "") {
+            $.ajax({
+                url: '@Url.Action("RemoveFromWishlist","Product",null,Request.Url.Scheme)',
+                type: 'POST',
+                data: { productId: prodcutId },
+                success: function (res) {
+                    if (res != "false") {
+                        $("#body").html(res);
+                    }
+                },
+                error: function (ts) {
+                    $("#body").html(ts.responseText);
+                }
+            })
+        }
+        else {
+            window.location.assign("https://localhost:44322/Home/Login?ReturnUrl=@HttpContext.Current.Request.Url.AbsoluteUri");
+        }
+    }
+
+    function AddToCart(productId) {
+         if (isAuth != null && isAuth != "") {
+             var count = $("#productCount").val();
+             $.ajax({
+                url: '@Url.Action("AddToCart","Product",null,Request.Url.Scheme)',
+                 type: 'POST',
+                 data: { productId: productId, productCount: count },
+                success: function (res) {
+                    if (res != "false") {
+                        //alert(res);
+                        alert("محصول به سبد خرید شما اضافه شد");
+                        $("#navBar").html(res);
+                    }
+                },
+                error: function (ts) {
+                    $("#body").html(ts.responseText);
+                }
+            })
+        }
+        else {
+            window.location.assign("https://localhost:44322/Home/Login?ReturnUrl=@HttpContext.Current.Request.Url.AbsoluteUri");
+        }
+    }
+
+
+
+
+    //function RegisterComment() {
+
+    //    var productId = $("#productId").val();
+    //    var rate = $(":radio").val();
+    //    var commentText = $("#commentText").val();
+
+    //    $.ajax({
+    //        url: 'https://localhost:44322/Product/RegisterComment',
+    //        type: 'POST',
+    //        data: { productId: productId, rate: rate, commentText: commentText },
+    //        success: function (res) {
+    //            alert(res);
+    //            //if (res != null) {
+    //            //    alert("نظر شما با موفقیت ثبت شد ");
+    //            //    $("#body").html(res);
+    //            //}
+    //        },
+    //        error: function (e) {
+    //            alert("Error ;;;;");
+    //            //$("#body").html(ts.responseText);
+    //        }
+    //    });
+    //}
+
+
+
+
+
+
+    $("#commentForm").submit(function (e) {
+        var formData = new FormData(this);
+        e.preventDefault();
+
+        if (formData.get('rate') == null) {
+            alert("امتیاز را وارد نکرده اید !");
+        }
+        else {
+            $.ajax({
+                url: 'https://localhost:44322/Product/RegisterComment',
+                type: 'POST',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    //alert(res);
+                    if (res != "false") {
+                        alert("نظر شما با موفقیت ثبت شد ");
+                        $("#body").html(res);
+                    }
+                },
+                error: function (e) {
+                    //alert("Error ;;");
+                    $("#body").html(ts.responseText);
+                }
+            });
+        }
+    });
+
+
+
+    $("#questionForm").submit(function (e) {
+        var formData = new FormData(this);
+        e.preventDefault();
+
+        $.ajax({
+            url: 'https://localhost:44322/Product/RegisterQuestion',
+            type: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                //alert(res);
+                if (res != "false") {
+                    alert("پرسش شما با موفقیت ثبت شد");
+                    $("#body").html(res);
+                }
+            },
+            error: function (e) {
+                //alert("Error ;;");
+                $("#body").html(ts.responseText);
+            }
+        });
+    });
+
+
+</script>

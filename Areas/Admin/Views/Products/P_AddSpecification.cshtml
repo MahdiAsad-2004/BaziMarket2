@@ -1,0 +1,99 @@
+﻿@model BaziMarket2.Models.ViewModel.SpecificationAddViewModel
+
+
+
+
+
+<div class="card-header">
+    <h3 style="font-size: 22px;" class="card-title">مشخصات</h3>
+
+    <div class="card-tools">
+        <button type="button" class="btn btn-tool" data-widget="collapse" style="width: 100px;">
+            <span style="font-size: 22px; color: #007bff;" class="material-symbols-outlined">add</span>
+        </button>
+    </div>
+    <!-- /.card-tools -->
+</div>
+<!-- /.card-header -->
+<div class="card-body">
+    <form class="form col-12" id="formSpecification">
+        <input id="ProductId" name="ProductId" type="number" hidden value="@ViewBag.ProductId" />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="col-12 row">
+            <div class="form-group col-8">
+                <label for="">عنوان مشخصه</label>
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-4">
+                <label for="">شماره مشخصه</label>
+                <select class="form-control" id="Index" name="Index">
+                    @foreach (var item in ViewData["Indexes"] as List<int>)
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-12 row">
+            <div class="form-group col-10">
+                <label for="">متن مشخصه</label>
+                @Html.EditorFor(model => model.Text, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-2">
+                <label style="color: white;" for="">/ </label>
+                <input class="form-control btn btn-success" id="submitSpecification" onclick="SubmitFormSpecification()" type="submit" value="ثبت" />
+            </div>
+        </div>
+    </form>
+    <div class="card col-12">
+        <div style="background-color: honeydew;" class="card-header">
+            <h3 style="font-size: 17px;" class="card-title">مشخصات محصول</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped" style="font-size: 14px;">
+                <tr>
+                    <th>عنوان</th>
+                    <th>متن</th>
+                    <th>شماره</th>
+                    <th>حذف</th>
+                </tr>
+                @if (ViewData["Specifications"] != null)
+                {
+                    foreach (var item in ViewData["Specifications"] as List<BaziMarket2.Models.Specification>)
+                    {
+                        <tr>
+                            <td class="col-3">@item.Title</td>
+                            <td class="col-7">@item.Text</td>
+                            <td class="col-1">@item.Index</td>
+                            <td class="col-1"><button onclick="DeleteSpecification(Id = @item.Id)" class="btn" style="background-color: inherit; width: 30px; height: 30px;"><span style="color: red; font-size: 30px;" class="material-symbols-outlined">delete_forever</span></button></td>
+                        </tr>
+                    }
+                }
+            </table>
+
+        </div>
+    </div>
+</div>
+<!-- /.card-body -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

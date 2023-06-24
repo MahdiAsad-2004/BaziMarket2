@@ -1,0 +1,309 @@
+﻿@model BaziMarket2.Models.ViewModel.UserProfileViewModel
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="asdf">
+
+
+    <main class="UserPanel" style="width: 95%;">
+        <ul class="sideBar">
+            <li>
+                <a href="" style="background-color: #e8293f; color: white;">
+                    <span class="material-symbols-outlined">account_box</span>  مشخصات
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("ChangeUserPassword","Customer",null,Request.Url.Scheme)">
+                    <span class="material-symbols-outlined">vpn_key_alert</span>  رمز عبور
+                </a>
+            </li>
+            <li>
+                <a>
+                    <span class="material-symbols-outlined">order_approve</span>  سفارش ها
+                </a>
+            </li>
+            <li>
+                <a>
+                    <span class="material-symbols-outlined">notifications</span>  اطلاعیه ها و اخبار
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Wishlist","Customer",null,Request.Url.Scheme)">
+                    <span class="material-symbols-outlined">bookmark</span>  لیست ها
+                </a>
+            </li>
+        </ul>
+
+
+
+
+
+
+        <div style="width: 60%; ">
+            <!-- Account details card-->
+            <div class="card">
+                <div class="card-header">مشخصات</div>
+                <div class="card-body">
+                    <form id="form">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <!-- Form Group (username)-->
+                        <div class="mb-2">
+                            <label class="small mb-1 card-lable" for="Username">نام کابری</label>
+                            <input class="form-control" id="Username" name="Username" readonly value="@Model.Username">
+                        </div>
+                        <!-- Form Row-->
+                        <div class="row gx-3 mb-2">
+                            <!-- Form Group (first name)-->
+                            <div class="col-md-6">
+                                <label class="small mb-1 card-lable" for="FirstName">نام</label>
+                                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                            </div>
+                            <!-- Form Group (last name)-->
+                            <div class="col-md-6">
+                                <label class="small mb-1 card-lable" for="LastName">نام خانوادگی</label>
+                                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <!-- Form Group (email address)-->
+                        <div class="mb-2">
+                            <label class="small mb-1 card-lable" for="UserAddress">آدرس</label>
+                            <textarea class="form-control" data-val="true" data-val-length="آدرس نمیتواند بیشتر از 200 کاراکتر داشته باشد!" data-val-length-max="200" id="Address" name="Address" rows="5">@Model.Address</textarea>
+                            @*@Html.TextAreaFor(model => model.Address,new { htmlAttributes = new { @class = "form-control",@rows = 5 } })*@
+                            @*@Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })*@
+                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                        </div>
+                        <!-- Form Row-->
+                        <div class="row gx-3 mb-3">
+                            <!-- Form Group (phone number)-->
+                            <div class="col-md-6">
+                                <label class="small mb-1 card-lable" for="RegisterDate">تاریخ ثبت نام</label>
+                                <input class="form-control" id="RegisterDate" name="RegisterDate" readonly value="@Model.RegisterDate">
+                            </div>
+                            <!-- Form Group (birthday)-->
+                            <div class="col-md-6">
+                                <label class="small mb-1 card-lable" for="UserIsActive">وضعیت</label>
+                                <select class="form-control" id="IsActive" name="IsActive">
+                                    @if (Model.IsActive == true)
+                                    {
+                                        <option style="color:limegreen;" value="true" selected>فعال</option>
+
+                                    }
+                                    else
+                                    {
+                                        <option style="color:red" value="false" selected>غیر فعال</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Save changes button-->
+                        <div style="margin-top:30px;">
+                            <button style="margin-left:10px;" onclick="DeleteUser()" class="btn btn-danger" type="button">حذف حساب کاربری</button>
+                            <input style="margin-left:10px;" onclick="ResetForm()" type="reset" class="btn btn-warning" value="دوباره نویسی" />
+                            <input onclick="SubmitForm()" id="submit" class="btn btn-primary" type="submit" value="ثبت تغییرات" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="" style="width: 20%;">
+            <!-- Profile picture card-->
+            <div class="card">
+                <div class="card-header">تصویر پروفایل</div>
+                <div class="card-body text-center">
+                    <!-- Profile picture image-->
+                    <img class="img-account-profile rounded-circle mb-2" src="~/Images/user-image/@Model.ProfileImage" alt="">
+                    <!-- Profile picture help block-->
+                    <!-- Profile picture upload button-->
+                    <form id="formImage">
+                        <label class="small mb-1 card-lable" for="ProfileImage">تغییر تصویر پروفایل</label>
+                        <input required class="form-control" type="file" name="Image" id="Image" accept=".png,.jpeg,.jpg">
+                        <input onclick="ResetForm()" class="btn btn-warning" type="reset" style="border:none; width:95%; margin-top:10px;" value="بازگشت" />
+                        <input onclick="SubmitFormImage()" id="submitImage" class="btn btn-primary" type="submit" style="border:none; width:95%; margin-top:10px;" value="ثبت تصویر" />
+                        <span id="file_error" class="text-danger"></span>
+                        <span id="file_error1" class="text-danger"></span>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+    function ResetFormImage() {
+        $("#submitImage").attr('disabled', false);
+        $("#file_error").html("");
+        $("#file_error1").html("");
+    }
+
+    function ResetForm() {
+        $("#submit").attr('disabled', false);
+        $("#form").reset();
+    }
+
+
+    $(document).ready(function () {
+        $("#Image").change(function () {
+            $("#file_error").html("");
+            $("#file_error1").html("");
+            $(".file_upload1").css("border-color", "#F0F0F0");
+            $("#submitImage").attr('disabled', false);
+            var file_size = $('#Image')[0].files[0].size;
+            if (file_size > 500000) {
+                $("#file_error").html("<p style='color:#FF0000'>حجم عکس نمیتواند بیش از 500 Kb باشد!</p>");
+                $(".file_upload1").css("border-color", "#FF0000");
+                $("#submitImage").attr('disabled', true);
+                return false;
+            }
+            var filename = $('#Image')[0].files[0].name;
+            var extension = filename.substr(filename.lastIndexOf("."));
+            var allowedExtensionsRegx = /(\.jpg|\.jpeg|\.png)$/i;
+            var isAllowed = allowedExtensionsRegx.test(extension);
+            if (isAllowed == false) {
+                $("#file_error1").html("<p style='color:#FF0000'>فرمت عکس اشتباه است!</p>");
+                $(".file_upload1").css("border-color", "#FF0000");
+                $("#submitImage").attr('disabled', true);
+            }
+            return true;
+        });
+    });
+
+    $(function () {
+        $('#submit').click(function () {
+            if ($("#form").valid()) {
+                return false;
+            }
+            else {
+                return false;
+            }
+        });
+    })
+
+    function SubmitForm() {
+        $("#form").submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            //var fileUpload = $("#imageFile").get(0);
+            //var files = fileUpload.files;
+            //formData.set('ImageFile', files[0]);
+            $.ajax({
+                url: 'EditUserPanel',
+                type: 'POST',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    if (res != "false") {
+                        alert("تغییرات با موفقیت انجام شد");
+                        //$("#body").html(data);
+                        window.location.replace("https://localhost:44322/Customer/Customer/Panel");
+                    }
+                },
+                error: function (e) {
+                    alert("error : " + e.statusText);
+                }
+            });
+        });
+    }
+
+    function SubmitFormImage() {
+        $("#formImage").submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            var fileUpload = $("#Image").get(0);
+            var files = fileUpload.files;
+            formData.set('Image', files[0]);
+            formData.set('Username', $("#Username").val());
+            $.ajax({
+                url: 'ChageUserProfileImage',
+                type: 'POST',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    if (res != "false") {
+                        alert("عکس با موفقیت تغییر یافت");
+                        $("#body").html(res);                   
+                    }
+                },
+                error: function (e) {
+                    alert("error : " + e.statusText);
+                }
+            });
+        });
+    }
+
+    function DeleteUser() {
+        var username = $("#Username").val();
+        let text = "آیا مطمئن هستید که می خواهید حساب کاربری خود را حذف کنید ؟ ";
+        if (confirm(text) == true) {
+            $.ajax({
+                url: 'DeleteUser',
+                type: 'POST',
+                data: { username: username },
+                success: function (res) {
+                    if (res != "false") {
+                        alert("حساب کاربری شما با موفقیت حذف شد ");
+                        window.location.replace("https://localhost:44322/Home/Logout");
+                    }
+                },
+                error: function (ts) {
+                    $("#body").html(ts.responseText);
+                }
+            })
+        }
+    }
+
+</script>
+
+
+
+
+
+
+
+<script src="https://lipis.github.io/bootstrap-sweetalert/lib/sweet-alert.js"></script>
+<script src="~/Scripts/jquery-3.6.4.min.js"></script>
+<script src="~/Scripts/jquery-3.6.4.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+
+

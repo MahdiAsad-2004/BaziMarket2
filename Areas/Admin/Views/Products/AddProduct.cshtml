@@ -1,0 +1,389 @@
+﻿@model BaziMarket2.Models.ViewModel.ProductAddViewModel
+
+<div id="asdf" class="wrapper">
+    <nav style="background-color: #007bff !important;" class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="@Url.Action("Panel","Admin",null,Request.Url.Scheme)" class="nav-link">پنل مدیریت</a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a class="nav-link">تماس</a>
+            </li>
+        </ul>
+    </nav>
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Brand Logo -->
+        <a href="https://localhost:44322/" class="brand-link bg-danger">
+            <img src="~/Images/local/Layer 9.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                 style="opacity: .8">
+            <span class="brand-text font-weight-light">بازی مارکت</span>
+        </a>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div>
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="info">
+                        <p class="text-white">@ViewBag.AdminName</p>
+                    </div>
+                    <div class="image" style="margin-right:40px;">
+                        <img src="~/Images/user-image/@ViewBag.AdminImage" class="img-circle" style="width:50px; height:50px;" alt="User Image">
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
+                        with font-awesome or any other icon font library -->
+
+                        <li class="nav-item">
+                            <a class="nav-link" style=" margin-top: 10px;">
+                                <i class="nav-icon fa fa-bars"></i>
+                                <p>
+                                    صفحه ی اصلی
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item" style=" margin-top: 10px;">
+                            <a href="https://localhost:44322/Admin/Users/AllUsers" class="nav-link">
+                                <i class="nav-icon fa fa-users"></i>
+                                <p>
+                                    لیست کاربران
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item" style="margin-top: 10px;">
+                            <a href="@Url.Action("RegisterUser","Users",null,Request.Url.Scheme)" class="nav-link">
+                                <i class="nav-icon fa fa-user-plus"></i>
+                                <p>
+                                    ثبت نام کاربر جدید
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item" style="margin-top: 10px;">
+                            <a href="@Url.Action("AllProducts","Products",null,Request.Url.Scheme)" class="nav-link">
+                                <i class="nav-icon fa fa-cubes"></i>
+                                <p>
+                                    لیست محصولات
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item" style="background-color: #dc3545; margin-top: 10px;">
+                            <a style="display:flex" class="nav-link">
+                                <span style="margin-left:7px;" class="material-symbols-outlined">deployed_code_update</span>
+                                <p>
+                                    افزودن محصول جدید
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item" style="margin-top: 10px;">
+                            <a href="@Url.Action("AddCategory","Category",null,Request.Url.Scheme)" style="display:flex;" class="nav-link">
+                                <span style="margin-left:7px;" class="material-symbols-outlined">create_new_folder</span>
+                                <p>
+                                    افزودن دسته بندی
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item" style="margin-top: 10px;">
+                            <a href="@Url.Action("AddDiscount","Discounts",null,Request.Url.Scheme)" class="nav-link">
+                                <i class="nav-icon fa fa-tags"></i>
+                                <p>
+                                    ثبت کد تخفیف
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">اضافه کردن محصول</h1>
+                        <i class="fa-file-plus" style="color: #ff2929;"></i>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-left">
+                            <li><a style="text-decoration:none;" href="https://localhost:44322/Admin/Admin/AdminPanel">پنل مدیر</a></li>
+                            <li style="padding-left:8px; padding-right:8px;">/</li>
+                            <li class="">اضافه کردن محصول</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-8">
+
+
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">فرم</h3>
+                            </div>
+                            <!-- /.card-header -->
+
+                            <div class="card-body p-0">
+                                <form class="form" id="form" style="padding: 20px;">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger", @style = "font-size:13px;" })
+                                    <div class="row col-12" style="margin-bottom: 10px;">
+                                        <div class="form-group col-7">
+                                            <label for="">نام محصول</label>
+                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "نام محصول را وارد کنید" } })
+                                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-5">
+                                            <label for="">قیمت (تومان)</label>
+                                            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @value = "0", @step = "1000", @min = 0, @max = 500000000 } })
+                                            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="row col-12" style="margin-bottom: 10px;">
+                                        <div class="form-group col-6">
+                                            <label for="">موجودی</label>
+                                            @Html.EditorFor(model => model.InStockCount, new { htmlAttributes = new { @class = "form-control", @value = "0", @min = 0, @max = 1000 } })
+                                            @Html.ValidationMessageFor(model => model.InStockCount, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <label for="">وضعیت</label>
+                                            <select name="IsActive" class="form-control" id="IsActive">
+                                                <option class="bg-success" value="true" selected>فعال</option>
+                                                <option class="bg bg-danger" value="false">غیر فعال</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row col-12">
+                                        <div class="form-group col-6" style="margin-bottom: 10px;">
+                                            <label for="">تخفیف (%)</label>
+                                            @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @max = 99, @step = 0.1 } })
+                                            @Html.ValidationMessageFor(model => model.Discount, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <label for="">دسته بندی</label>
+                                            <select aria-invalid="spelling" form="form" ame="CategoryId" class="form-control" id="CategoryId">
+                                                <option value="" selected>بدون دسته بندی</option>
+                                                @foreach (var item in ViewData["Categories"] as List<BaziMarket2.Models.Category>)
+                                                {
+                                                    <option value="@item.Id">@item.Name</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group col-12" style="margin-bottom: 50px;">
+                                        <label for="">عکس</label>
+                                        <input class="form-control" type="file" id="Image" name="Image">
+                                        <span id="file_error" class="text-danger"></span>
+                                        <span id="file_error1" class="text-danger"></span>
+                                    </div>
+
+
+
+
+
+                                    <div class="row col-12" style="margin-bottom: 10px;">
+                                        <div class="form-group col-6">
+                                            <input type="reset" onclick="resetForm()" class="btn btn-block btn-warning" value="دوباره نویسی" />
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <input type="submit" id="submit" class="btn btn-block btn-success" onclick="submitForm()" value="ثبت محصول" />
+                                        </div>
+                                    </div>
+
+
+
+
+                                </form>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer clearfix"></div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">آخرین محصولات</h3>
+                            </div>
+
+                            <div class="card-body p-0">
+                                <table class="table table-striped" style="font-size: 13px;">
+                                    <tr style="background-color: honeydew;">
+                                        <th>نام</th>
+                                        <th>قیمت</th>
+                                        <th>موجودی</th>
+                                        <th>عکس</th>
+                                    </tr>
+                                    @if (ViewData["Products"] != null)
+                                    {
+                                        foreach (var item in ViewData["Products"] as List<BaziMarket2.Models.ViewModel.ProductAddListViewModel>)
+                                        {
+                                            <tr>
+                                                <td>@item.Name</td>
+                                                <td>@item.Price.DevideMoneyNumber() تومان</td>
+                                                <td>@item.InStockCount</td>
+                                                <td><img style="width: 50px; height: 50px; border-radius:50%;" src="~/Images/product-image/@item.Image" alt=""></td>
+                                            </tr>
+                                        }
+
+                                    }
+
+                                </table>
+                            </div>
+                            <div class="card-footer">
+                                <a href="AllUsers" style="text-decoration:none;" class="morris-hover" id="zxc">
+                                    مشاهده همه محصولات
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- Control Sidebar -->
+    </div>
+    <!-- ./wrapper -->
+
+
+
+
+
+
+    <script>
+
+        function resetForm() {
+            $("#submit").attr('disabled', false);
+            $("#file_error").html("");
+            $("#file_error1").html("");
+            $("#form").reset();
+        }
+
+
+        $(document).ready(function () {
+            $("#Image").change(function () {
+                $("#file_error").html("");
+                $("#file_error1").html("");
+                $(".file_upload1").css("border-color", "#F0F0F0");
+                $("#submit").attr('disabled', false);
+                var file_size = $('#Image')[0].files[0].size;
+                if (file_size > 500000) {
+                    $("#file_error").html("<p style='color:#FF0000'>حجم عکس نمیتواند بیش از 500 Kb باشد!</p>");
+                    $(".file_upload1").css("border-color", "#FF0000");
+                    $("#submit").attr('disabled', true);
+                    return false;
+                }
+                var filename = $('#Image')[0].files[0].name;
+                var extension = filename.substr(filename.lastIndexOf("."));
+                var allowedExtensionsRegx = /(\.jpg|\.jpeg|\.png)$/i;
+                var isAllowed = allowedExtensionsRegx.test(extension);
+                if (isAllowed == false) {
+                    $("#file_error1").html("<p style='color:#FF0000'>فرمت عکس اشتباه است!</p>");
+                    $(".file_upload1").css("border-color", "#FF0000");
+                    $("#submit").attr('disabled', true);
+                }
+                return true;
+            });
+        });
+
+        var xxx = true;
+
+
+        $(function () {
+            $('#submit').click(function () {
+                if ($("#form").valid()) {
+                    xxx = false;
+                    return false;
+                }
+                else {
+                    xxx = false;
+                    return false;
+                }
+            });
+        })
+
+
+
+
+        function submitForm() {
+            $("#form").submit(function (e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                var fileUpload = $("#Image").get(0);
+                var files = fileUpload.files;
+                var discount = $("#Discount").val();
+                var catId = $('#CategoryId option:selected').val();
+                var active = $('#IsActive option:selected').val();
+                var name = $('#Name').val();
+                var price = $('#Price').val();
+                var count = $('#InStockCount').val();
+
+                formData.set('viewModel.Discount', discount);
+                formData.set('Image', files[0]);
+                formData.set('viewModel.CategoryId', catId);
+                formData.set('viewModel.IsActive', active);
+                formData.set('viewModel.Name', name);
+                formData.set('viewModel.Price', price);
+                formData.set('viewModel.InStockCount', count);
+
+
+                $.ajax({
+                    url: 'AddProduct',
+                    type: 'POST',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        if (data.message != null) {
+                            alert(data.message);
+                            $("#asdf").load(data.action);
+                        }
+                        else if (data != "false") {
+                            $("#asdf").html(data);
+                        }
+                    },
+                    error: function (e) {
+                        alert("error : " + e.statusText);
+                    }
+                });
+            });
+        }
+    </script>
+
+
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

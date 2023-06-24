@@ -1,0 +1,299 @@
+﻿<div id="qaz" class="wrapper">
+
+    <nav style="background-color: #007bff !important;" class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="@Url.Action("Panel","Admin",null,Request.Url.Scheme)" class="nav-link">پنل مدیریت</a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a class="nav-link">تماس</a>
+            </li>
+        </ul>
+    </nav>
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Brand Logo -->
+        <a href="https://localhost:44322/" class="brand-link bg-danger">
+            <img src="~/Images/local/Layer 9.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                 style="opacity: .8">
+            <span class="brand-text font-weight-light">بازی مارکت</span>
+        </a>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div>
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="info">
+                        <p class="text-white">@ViewBag.AdminName</p>
+                    </div>
+                    <div class="image" style="margin-right:40px;">
+                        <img src="~/Images/user-image/@ViewBag.AdminImage" class="img-circle" style="width:50px; height:50px;" alt="User Image">
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
+                        with font-awesome or any other icon font library -->
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Panel","Admin",null,Request.Url.Scheme)" class="nav-link" style=" margin-top: 10px;">
+                                <i class="nav-icon fa fa-bars"></i>
+                                <p>
+                                    صفحه ی اصلی
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item" style=" margin-top: 10px;">
+                            <a href="https://localhost:44322/Admin/Users/AllUsers" class="nav-link">
+                                <i class="nav-icon fa fa-users"></i>
+                                <p>
+                                    لیست کاربران
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item" style=" margin-top: 10px;">
+                            <a href="@Url.Action("RegisterUser","Users",null,Request.Url.Scheme)" class="nav-link">
+                                <i class="nav-icon fa fa-user-plus"></i>
+                                <p>
+                                    ثبت نام کاربر جدید
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item" style="background-color: #dc3545; margin-top: 10px;">
+                            <a class="nav-link">
+                                <i class="nav-icon fa fa-cubes"></i>
+                                <p>
+                                    لیست محصولات
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item" style="margin-top: 10px;">
+                            <a href="@Url.Action("AddProduct","Products",null,Request.Url.Scheme)" style="display:flex" class="nav-link">
+                                <span style="margin-left:7px;" class="material-symbols-outlined">deployed_code_update</span>
+                                <p>
+                                    افزودن محصول جدید
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item" style="margin-top: 10px;">
+                            <a href="@Url.Action("AddCategory","Category",null,Request.Url.Scheme)" style="display:flex;" class="nav-link">
+                                <span style="margin-left:7px;" class="material-symbols-outlined">create_new_folder</span>
+                                <p>
+                                    افزودن دسته بندی
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item" style="margin-top: 10px;">
+                            <a href="@Url.Action("AddDiscount","Discounts",null,Request.Url.Scheme)" class="nav-link">
+                                <i class="nav-icon fa fa-tags"></i>
+                                <p>
+                                    ثبت کد تخفیف
+                                </p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">لیست مصولات</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-left">
+                            <li class="breadcrumb-item" style="text-decoration:none;"><a href="https://localhost:44322/Admin/Admin/Panel">پنل مدیر</a></li>
+                            <li style="padding-left:8px; padding-right:8px;">/</li>
+                            <li class="breadcrumb-item ">لیست محصولات</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+
+                        <div class="card">
+
+                            <div class="card-header">
+                                <h3 class="card-title">لیست</h3>
+
+                                <div class="card-tools">
+                                    <div class="input-group input-group-sm" style="width: 230px;">
+                                        <input type="text" name="table_search" id="Search" value="@ViewBag.Search" class="form-control float-right" placeholder="جستجو">
+                                        <div class="input-group-append">
+                                            <button type="button" id="submitSearch" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-tools" style="margin-left: 280px;">
+                                    <div class="input-group input-group-sm" style="width: 230px;">
+                                        <select class="form-control float-right" name="Sort" id="Sort">
+                                            <option id="defaultSort" value="" selected>پیشفرض</option>
+                                            <option value="1">ارزان ترین</option>
+                                            <option value="2">گران ترین</option>
+                                            <option value="3">پرفروش ترین</option>
+                                            <option value="4">جدید ترین</option>
+                                        </select>
+                                        <div class="input-group-append">
+                                            <button type="submit" id="submitSort" class="btn btn-default"><span style="font-size: 21px;" class="material-symbols-outlined">done_outline</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-tools" style="margin-left: 550px;">
+                                    <div class="input-group input-group-sm" style="width: 260px;">
+                                        <select class="form-control" name="ItemCount" id="ItemCount">
+                                            <option value="5" selected>تعداد در صفحه</option>
+                                            <option value="10">10</option>
+                                            <option value="15">15</option>
+                                            <option value="25">25</option>
+                                        </select>
+                                        <div class="input-group-append">
+                                            <button type="submit" id="submitItemCount" class="btn btn-default"><span style="font-size: 21px;" class="material-symbols-outlined">done_outline</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div id="zxcvb">
+                                @Html.Action("P_AllProducts", "Products", new { search = "", sort = "", page = 1, itemCount = 5 })
+                            </div>
+
+                        </div>
+                        <!-- /.card -->
+
+                        <script>
+
+                            $(function () {
+                                $('#submitSort').click(function () {
+                                    var sort = $('#Sort option:selected').val();
+                                    var search = $('#Search').val();
+                                    var itemcount = $('#VItemCount').val();
+                                    $.ajax({
+                                        url: 'AllProductsFilter',
+                                        type: 'Get',
+                                        data: { search: search, sort: sort, page: 1, itemCount: itemcount },
+                                        success: function (data) {
+                                            //alert(data);
+                                            $("#zxcvb").html(data);
+                                        },
+                                        error: function (e) {
+                                            alert("error : " + e.statusText);
+                                        }
+                                    });
+                                });
+                            })
+
+
+
+                        </script>
+
+                        <script>
+                            $('#submitSearch').click(function () {
+                                var search = $("#Search").val();
+                                var vsort = $("#VSort").val();
+                                var itemcount = $('#VItemCount').val();
+
+                                $.ajax({
+                                    url: 'AllProductsFilter',
+                                    type: 'Get',
+                                    data: { search: search, sort: vsort, page: 1, itemCount: itemcount },
+                                    success: function (data) {
+                                        $("#zxcvb").html(data);
+                                    },
+                                    error: function (e) {
+                                        alert("error : " + e.statusText);
+                                    }
+                                });
+                            });
+                        </script>
+
+
+                        <script>
+                            $('#submitItemCount').click(function () {
+                                var search = $("#Search").val();
+                                var vsort = $("#VSort").val();
+                                var itemcount = $('#ItemCount option:selected').val();
+
+                                $.ajax({
+                                    url: 'AllProductsFilter',
+                                    type: 'Get',
+                                    data: { search: search, sort: vsort, page: 1, itemCount: itemcount },
+                                    success: function (data) {
+                                        $("#zxcvb").html(data);
+                                    },
+                                    error: function (e) {
+                                        alert("error : " + e.statusText);
+                                    }
+                                });
+                            });
+                        </script>
+
+
+                        <script>
+
+                            function GoPage(page) {
+                                var vsort = $("#VSort").val();
+                                var search = $("#Search").val();
+                                var itemcount = $('#VItemCount').val();
+
+                                $.ajax({
+                                    url: 'AllProductsFilter',
+                                    type: 'Get',
+                                    data: { search: search, sort: vsort, page: page, itemCount: itemcount },
+                                    success: function (data) {
+                                        //alert(data);
+                                        $("#defaultSort").attr('selected', true);
+                                        $("#zxcvb").html(data);
+                                        $("#defaultSort").attr('selected', true);
+                                    },
+                                    error: function (e) {
+                                        alert("error : " + e.statusText);
+                                    }
+                                });
+                            }
+
+                        </script>
+
+
+
+
+
+
+                    </div>
+
+
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- Control Sidebar -->
+    </div>
+    <!-- ./wrapper -->

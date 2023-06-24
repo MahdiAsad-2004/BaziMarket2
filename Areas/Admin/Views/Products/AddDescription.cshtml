@@ -1,0 +1,122 @@
+﻿@model BaziMarket2.Models.ViewModel.DescriptionAddViewModel
+
+
+
+
+<div class="card-header">
+    <h3 style="font-size: 22px;" class="card-title">توضیحات</h3>
+
+    <div class="card-tools">
+        <button type="button" id="descOpen" class="btn btn-tool" data-widget="collapse" style="width: 100px;">
+            <span style="font-size: 22px; color: #007bff;" class="material-symbols-outlined">add</span>
+        </button>
+    </div>
+    <!-- /.card-tools -->
+</div>
+<!-- /.card-header -->
+<div class="card-body p-0">
+    <div class="col-12 row" style="padding-top: 15px;">
+        <form id="form" class="col-8">
+            <input id="ProductId" name="ProductId" hidden type="number" value="@ViewBag.ProductId" />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group col-12">
+                <label for="">متن توضیح</label>
+                @*<textarea class="form-control" name="Text" id="Text" cols="30" rows="15" minlength="30" placeholder="متن خود را وارد کنید" ></textarea>*@
+                @Html.TextAreaFor(model => model.Text, 15, 30, new { @class = "form-control", @placeholder = "متن توضیح را وارد کنید" })
+                @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-12 row">
+                <div class="form-group col-6">
+                    <label for="">عنوان توضیح</label>
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @placeholder = "عنوان توضیح را وارد کنید" } })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    @*<input class="form-control" type="text" minlength="3" maxlength="50" required>*@
+                </div>
+                <div class="form-group col-6">
+                    <label for="">شماره توضیح</label>
+                    <select id="Index" name="Index" class="form-select">
+                        @foreach (var item in ViewData["Indexes"] as List<int>)
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    </select>
+                    @*<input class="form-control" type="number" min="1" max="10" required>*@
+                </div>
+            </div>
+            <div class="col-12 row">
+                <div class="form-group col-12">
+                    <label for="">عکس توضیح</label>
+                    <input class="form-control" type="file" id="Image" name="Image">
+                    <span id="file_error" class="text-danger"></span>
+                    <span id="file_error1" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-12 row">
+                <div class="form-group col-6">
+                    <label style="color: white;" for="">/</label>
+                    <input type="reset" onclick="resetForm()" class="btn btn-warning form-control" value="دوباره نویسی" />
+                </div>
+                <div class="form-group col-6">
+                    <label style="color: white;" for="">/</label>
+                    <input type="submit" id="submit" onclick="submitForm()" class="btn btn-success form-control" value="ثبت" />
+                </div>
+            </div>
+        </form>
+        <div class="card col-4" style="margin-top: 15px;">
+            <div class="card-header" style="background-color: honeydew;">
+                <h3 class="card-title" style="font-size: 16px;">توضیحات محصول</h3>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped" style="font-size: 13px;">
+                    <tr>
+                        <th>عنوان</th>
+                        <th>شماره</th>
+                        <th>عکس</th>
+                        <th>حذف</th>
+                    </tr>
+                    @if (ViewData["Descriptions"] != null)
+                    {
+                        foreach (var item in ViewData["Descriptions"] as List<BaziMarket2.Models.Description>)
+                        {
+                            <tr>
+                                <td class="col-7">@item.Title</td>
+                                <td class="col-1">@item.Index</td>
+                                <td class="col-3"><img style="width: 50px; height: 50px; border-radius:4px;" src="~/Images/description-image/@item.Image" alt=""></td>
+                                <td class="col-1"><button class="btn" onclick="DeleteDescription(Id = @item.Id)" style="background-color: inherit; width: 35px; height: 35px;"><span style="color: red; font-size: 30px;" class="material-symbols-outlined">delete_forever</span></button></td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- /.card-body -->
+
+
+
+
+
+
+
+
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+</div>
+<!-- /.card -->
+
+
+
+
+
+
+
+
+
+
+

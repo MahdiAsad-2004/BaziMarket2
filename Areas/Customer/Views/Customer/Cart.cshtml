@@ -1,0 +1,152 @@
+﻿@model BaziMarket2.Models.Cart
+
+<main class="main-cart">
+    @if (Model == null)
+    {
+        <h3 style="height: 300px; display: flex; flex-direction:column; align-items: center; justify-content:center;"> <i class="bi bi-basket2" style="font-size:70px; margin-bottom:30px;"></i>  سبد خرید شما خالی است !</h3>
+    }
+    else
+    {
+        <div class="cart-details">
+            <h3><b>سبد خرید </b><span>@Model.ProductCarts.Sum(t => t.Number) مورد</span></h3>
+            <div>
+                <p>کالا</p>
+                <p>تعداد</p>
+                <p>قیمت</p>
+                <p>حذف</p>
+            </div>
+
+            @foreach (var item in Model.ProductCarts)
+            {
+                BaziMarket2.Models.Product product = item.Product;
+                <div class="cart-details-item">
+                    <div class="cart-details-item-image">
+                        <img src="~/images/product-image/@product.Image" alt="@product.Name">
+                        <a href="https://localhost:44322/Product/Product/@product.EncodeName()">@product.Name</a>
+                    </div>
+                    <p class="cart-details-item-count">@item.Number</p>
+                    <div class="cart-details-item-price">
+                        <p> @product.GetPrice().DevideMoneyNumber() <span class="material-symbols-outlined">close</span> @item.Number </p>
+                        @{
+                            int totalPrice = product.GetPrice() * item.Number;
+                        }
+                        <p><b>@totalPrice.DevideMoneyNumber()</b></p>
+                    </div>
+                    <form>
+                        <button onclick="RemoveFromCart(productcartId = @item.Id)" type="button" style="background-color:inherit; border:none;"><span class="material-symbols-outlined" style="color: red; font-size: 28px;">delete</span></button>
+                    </form>
+                </div>
+                Model.Cost += totalPrice;
+            }
+        </div>
+
+
+        <div class="cart-shopping">
+            <form class="cart-shopping-discount" style="flex-wrap:wrap;">
+                <input id="discountCode" name="discountCode" type="text" placeholder="کد تخفیف را وارد کنید">
+                <button onclick="CheckDiscountCode()" type="button">اعمال کد تخفیف</button>
+                <span id="errorDiscountCode"></span>
+                <p id="azsx" style='width: 96%; margin-top: 6px; font-size:17px;' class='text-danger'></p>
+            </form>
+            <h4 style="margin-bottom: 30px;">صورت حساب</h4>
+            <p class="cart-shopping-price">جمع قیمت : <span>@Model.Cost.DevideMoneyNumber()  تومان</span></p>
+            @{
+                int finalPrice = Model.Cost + 50000;
+            }
+            <div id="asdfg">
+
+            </div>
+            @if (ViewData["Discount"] != null)
+            {
+                BaziMarket2.Models.Discount discount = ViewData["Discount"] as BaziMarket2.Models.Discount;
+                int DiscountPrice = (int)(Model.Cost * discount.Percent / 100);
+                <p class="cart-shopping-price">
+                    تخفیف : <b>(@DiscountPrice.DevideMoneyNumber() تومان)  <span style=" margin-left:5px; margin-right:5px;" class="material-symbols-outlined text-primary">arrow_forward</span>  @discount.Percent % </b>
+                    @if (discount.MaxPrice > 0 && DiscountPrice > discount.MaxPrice)
+                    {
+                        DiscountPrice = discount.MaxPrice;
+                        <span>(حداکثر  @discount.MaxPrice.DevideMoneyNumber() تومان)</span>
+                    }
+                </p>
+                finalPrice -= DiscountPrice;
+                TempData["discountId"] = discount.Id;
+                <input id="discount" name="discount" type="text" value="@discount.Id" hidden/>
+            }
+            else
+            {
+                TempData["discountId"] = null;
+            }
+            <p class="cart-shopping-price">هزینه حمل و نقل : <span>50,000 تومان</span></p>
+            <p class="cart-shopping-total">مجموع :  <span>@finalPrice.DevideMoneyNumber()  تومان</span></p>
+            <a class="cart-shopping-checkout btn btn-success">تسویه حساب</a>
+        </div>
+        
+    }
+
+
+
+
+</main>
+
+
+
+
+<script>
+    function CheckDiscountCode() {
+        var discountCode = $('#discountCode').val();
+        var discount = $('#discount').val();
+        var url = "https://localhost:44322/Customer/Customer/Cart?discountId=" + discount; 
+        $.ajax({
+            url: "@Url.Action("CheckDiscountCode","Customer",null,Request.Url.Scheme)",
+            type: 'POST',
+            data: { discountCode: discountCode, },
+            success: function (res) {
+                //if (res == "error") {
+                //    //$("#errorDiscountCode").html("");
+                //    $("#azsx").append("کد تخفیف اشتباه است !");
+                //    if (discount == "itsTrue") {
+                //        $("#azsx").append("کد تخفیف اشتباه است !");
+                //        window.location.replace("https://localhost:44322/Customer/Customer/Cart");
+                //        $("#azsx").append("کد تخفیف اشتباه است !");
+                //    }
+                //    $("#azsx").append("کد تخفیف اشتباه است !");
+                //}
+                //else {
+                //    $("#body").html(res);
+                //}
+                if (res.message != null) {
+                    $("#body").load(res.action);                   
+                }
+                else {
+                    $("#body").html(res);
+                    $("#azsx").append("کد تخفیف اشتباه است !");
+                }
+            },
+            error: function (ts) {
+                $("#body").html(ts.responseText);
+            }
+            
+        })
+    }
+
+    function RemoveFromCart(productcartId) {
+        
+        $.ajax({
+            url: 'https://localhost:44322/Product/RemoveFromCart',
+            type: 'POST',
+            data: { productcartId: productcartId ,productCount:1},
+            success: function (res) {
+                if (res != "false") {
+                    $("#body").html(res);                       
+                }
+            },
+            error: function (ts) {
+                $("#body").html(ts.responseText);
+            }
+        })
+    }
+
+
+
+</script>
+

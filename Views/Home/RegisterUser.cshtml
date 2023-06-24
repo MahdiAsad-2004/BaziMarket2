@@ -1,0 +1,194 @@
+﻿@model BaziMarket2.Models.ViewModel.UserRegisterViewModel
+
+
+
+<div class="main-register">
+    <img class="register-backImage" src="~/images/local/3745105.jpg" alt="">
+    <div class="register">
+        <form class="register-form" id="form">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <h2 class="register-form-title">
+                <a href="https://localhost:44322/Home/Login">ورود</a>
+                /<p>ثبت نام</p>
+            </h2>
+            <ul class="register-form-ul">
+                <li class="register-form-ul-li">
+                    <div class="register-form-ul-li-lable">
+                        <span class="lable-required"> * </span> <label for="">نام کاربری (شماره موبایل)</label> <span style="padding-right:5px;"> : </span>
+                    </div>
+                    <div class="register-form-ul-li-div">
+                        @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "register-form-ul-li-input" } })
+                        @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger validation-error" })
+                        <p id="errorUsername" class="validation-error text-danger"></p>
+                    </div>
+                </li>
+                <li class="register-form-ul-li">
+                    <div class="register-form-ul-li-lable">
+                        <span class="lable-required"> * </span> <label for="">رمز عبور</label><span style="padding-right:5px;"> : </span>
+                    </div>
+                    <div class="register-form-ul-li-div">
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "register-form-ul-li-input" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger validation-error" })
+                    </div>
+                </li>
+                <li class="register-form-ul-li">
+                    <div class="register-form-ul-li-lable">
+                        <span class="lable-required"> * </span>تکرار رمز عبور<span style="padding-right:5px;"> : </span>
+                    </div>
+                    <div class="register-form-ul-li-div">
+                        @Html.EditorFor(model => model.RepeatPassword, new { htmlAttributes = new { @class = "register-form-ul-li-input" } })
+                        @Html.ValidationMessageFor(model => model.RepeatPassword, "", new { @class = "text-danger validation-error" })
+                    </div>
+                </li>
+                <li class="register-form-ul-li">
+                    <div class="register-form-ul-li-lable">
+                        <span class="lable-required"> * </span>نام<span style="padding-right:5px;"> : </span>
+                    </div>
+                    <div class="register-form-ul-li-div">
+                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "register-form-ul-li-input" } })
+                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger validation-error" })
+                    </div>
+                </li>
+                <li class="register-form-ul-li">
+                    <div class="register-form-ul-li-lable">
+                        <span class="lable-required"> * </span>نام خانوادگی<span style="padding-right:5px;"> : </span>
+                    </div>
+                    <div class="register-form-ul-li-div">
+                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "register-form-ul-li-input" } })
+                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger validation-error" })
+                    </div>
+                </li>
+                <li class="register-form-ul-li">
+                    <div class="register-form-ul-li-lable">
+                        <label for="">عکس</label><span style="padding-right:5px;"> : </span>
+                    </div>
+                    <div class="register-form-ul-li-div">
+                        <input class="register-form-ul-li-input" type="file" name="profileImage" id="profileImage" accept=".png,.jpeg,.jpg">
+                        <span id="file_error" class="text-danger"></span>
+                        <span id="file_error1" class="text-danger"></span>
+                    </div>
+                </li>
+                <li class="textArea">
+                    <div class="register-form-ul-li-lable">
+                        <label for="">آدرس</label><span style="padding-right:5px;"> : </span>
+                    </div>
+                    <textarea class="textArea-div" data-val="true" data-val-length="آدرس نمیتواند بیشتر از 200 کاراکتر داشته باشد!" data-val-length-max="200" name="Address" id="Address">
+
+                    </textarea>
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger validation-error" })
+                </li>
+            </ul>
+            <input id="RoleId" name="RoleId" value="3" readonly hidden/>
+            <input id="IsActive" name="IsActive" value="true" readonly hidden/>
+            <div class="register-form-buttons">
+                <div class="register-form-buttons-reset">
+                    <input onclick="ResetForm()" type="reset" value="دوباره نویسی">
+                </div>
+                <div class="register-form-buttons-submit">
+                    <input onclick="SubmitForm()" id="submit" type="submit" value="ثبت نام" class="btn">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+<script>
+
+    function ResetForm() {
+        $("#file_error").html("");
+        $("#file_error1").html("");
+        $("#form").reset();
+        $("#submit").attr('disabled', false);
+    }
+
+
+    $(document).ready(function () {
+        $("#profileImage").change(function () {
+            $("#file_error").html("");
+            $("#file_error1").html("");
+            $(".file_upload1").css("border-color", "#F0F0F0");
+            $("#submit").attr('disabled', false);
+            var file_size = $('#profileImage')[0].files[0].size;
+            if (file_size > 500000) {
+                $("#file_error").html("<p style='color:#FF0000'>حجم عکس نمیتواند بیش از 500 Kb باشد!</p>");
+                $(".file_upload1").css("border-color", "#FF0000");
+                $("#submit").attr('disabled', true);
+                return false;
+            }
+            var filename = $('#profileImage')[0].files[0].name;
+            var extension = filename.substr(filename.lastIndexOf("."));
+            var allowedExtensionsRegx = /(\.jpg|\.jpeg|\.png)$/i;
+            var isAllowed = allowedExtensionsRegx.test(extension);
+            if (isAllowed == false) {
+                $("#file_error1").html("<p style='color:#FF0000'>فرمت عکس اشتباه است!</p>");
+                $(".file_upload1").css("border-color", "#FF0000");
+                $("#submit").attr('disabled', true);
+            }
+
+
+            return true;
+        });
+    });
+
+
+
+    $(function () {
+        $('#submit').click(function () {
+            if ($("#form").valid()) {
+                return false;
+            }
+            else {
+                return false;
+            }
+        });
+    })
+
+
+    function SubmitForm() {
+        $("#form").submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            var fileUpload = $("#profileImage").get(0);
+            var files = fileUpload.files;
+            formData.set('Image', files[0]);
+            $.ajax({
+                url: '@Url.Action("RegisterUser","Home")',
+                type: 'POST',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    if (res == "error") {
+                        alert("خطا : این شماره موبایل قبلا ثبت شده است!");                        
+                    }
+                    else if (res != "false") {
+                        alert("ثبت نام با موفقیت انجام شد");
+                        window.location.assign(res);
+                    }
+                },
+                error: function (ts) {
+                    $("#body").html(ts.responseText);
+                }
+            });
+        });
+    }
+
+
+</script>
+
+
+
+
+
+
+
+<script src="~/Scripts/jquery-3.6.4.min.js"></script>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+

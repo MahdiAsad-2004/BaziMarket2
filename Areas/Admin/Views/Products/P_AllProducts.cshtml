@@ -1,0 +1,119 @@
+﻿@model List<BaziMarket2.Models.ViewModel.ProductAllViewModel>
+
+<div class="card-body table-responsive p-0">
+    <table class="table" style="font-size: 14px;">
+        <tr style="background-color: white;">
+            <th>نام</th>
+            <th>قیمت (تومان)</th>
+            <th>تاریخ ثبت</th>
+            <th>موجودی</th>
+            <th>وضعیت</th>
+            <th>تخفیف (%)</th>
+            <th>دسته بندی</th>
+            <th>فروخته شده</th>
+            <th>عکس</th>
+            <th>انتخاب</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr style="border-top: solid black 2px; border-bottom: solid black 2px;">
+                <td><a style="color:black; text-decoration:none; " class="hover" href="https://localhost:44322/Product/Product/@item.EncodeName()">@item.Name</a></td>
+                <td>@item.Price.DevideMoneyNumber() تومان</td>
+                <td>@item.RegisterDate.ToShortDateString()</td>
+                <td> @item.InStockCount عدد</td>
+                @if (true)
+                {
+                    <td style="color: rgb(3, 170, 3);">فعال</td>
+                }
+                else
+                {
+                    <td style="color:red;">غیر فعال</td>
+                }
+                <td>@item.Discount%</td>
+                @if (item.Category != null)
+                {
+                    <td>@item.Category.Name</td>
+                }
+                else
+                {
+                    <td>بدون دسته بندی</td>
+                }
+                <td>@item.Sold</td>
+                <td><img style="width: 50px; height: 50px;" src="~/Images/product-image/@item.Image" alt=""></td>
+                <td style="display:flex; flex-direction:column; justify-content:flex-start; font-size:12px;">
+                    <button onclick="EditProduct(Id = @item.Id)" style="margin-top: 10px; font-size:14px;" class="btn btn-secondary ">ویرایش محصول</button>
+                    <button onclick="ProductContent(Id = @item.Id)" style="margin-top: 10px; font-size: 14px;" class="btn btn-warning">محتوای محصول</button>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<div class="card-footer clearfix">
+    <ul class="pagination pagination-sm m-0 float-left ">
+        @if (ViewBag.CurrentPage > 1)
+        {
+            <li class="page-item"><a class="page-link" onclick="GoPage(page = @ViewBag.CurrentPage-1)">&raquo;</a></li>
+        }
+        else
+        {
+            <li class="page-item"><a class="page-link">&raquo;</a></li>
+        }
+        @for (int i = 1; i <= ViewBag.PageCount; i++)
+        {
+            if (i == ViewBag.CurrentPage)
+            {
+                <li class="page-item active" ><a class="page-link">@i</a></li>
+            }
+            else
+            {
+                <li class="page-item" ><a class="page-link" onclick="GoPage(page = @i)">@i</a></li>
+            }
+        }
+        @if (ViewBag.CurrentPage < ViewBag.PageCount)
+        {
+            <li class="page-item"><a class="page-link" onclick="GoPage(page = @ViewBag.CurrentPage+1)">&laquo;</a></li>
+        }
+        else
+        {
+            <li class="page-item" ><a class="page-link">&laquo;</a></li>
+        }
+    </ul>
+</div>
+
+
+
+<input id="VSort" name="VSort" type="number" hidden value="@ViewBag.Sort" />
+<input id="VItemCount" name="VItemCount" type="number" hidden value="@ViewBag.ItemCount" />
+
+
+
+
+
+
+<script>
+
+    function EditProduct(Id) {
+
+        window.location.assign("https://localhost:44322/Admin/Products/EditProduct?ProductId=" + Id);
+    }
+
+
+    function ProductContent(Id) {
+        window.location.assign("https://localhost:44322/Admin/Products/ProductContent?ProductId=" + Id);        
+    }
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+

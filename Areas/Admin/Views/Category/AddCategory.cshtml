@@ -1,0 +1,349 @@
+﻿@model List<BaziMarket2.Models.Category>
+
+
+
+<div id="asdf" class="wrapper">
+    <nav style="background-color: #007bff !important;" class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="@Url.Action("Panel","Admin",null,Request.Url.Scheme)" class="nav-link">پنل مدیریت</a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a class="nav-link">تماس</a>
+            </li>
+        </ul>
+    </nav>
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Brand Logo -->
+        <a href="https://localhost:44322/" class="brand-link bg-danger">
+            <img src="~/Images/local/Layer 9.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                 style="opacity: .8">
+            <span class="brand-text font-weight-light">بازی مارکت</span>
+        </a>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div>
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="info">
+                        <p class="text-white">@ViewBag.AdminName</p>
+                    </div>
+                    <div class="image" style="margin-right:40px;">
+                        <img src="~/Images/user-image/@ViewBag.AdminImage" class="img-circle" style="width:50px; height:50px;" alt="User Image">
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
+                        with font-awesome or any other icon font library -->
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Panel","Admin",null,Request.Url.Scheme)" class="nav-link" style=" margin-top: 10px;">
+                                <i class="nav-icon fa fa-bars"></i>
+                                <p>
+                                    صفحه ی اصلی
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item" style=" margin-top: 10px;">
+                            <a href="https://localhost:44322/Admin/Users/AllUsers" class="nav-link">
+                                <i class="nav-icon fa fa-users"></i>
+                                <p>
+                                    لیست کاربران
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item" style="margin-top: 10px;">
+                            <a href="@Url.Action("RegisterUser","Users",null,Request.Url.Scheme)" class="nav-link">
+                                <i class="nav-icon fa fa-user-plus"></i>
+                                <p>
+                                    ثبت نام کاربر جدید
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item" style="margin-top: 10px;">
+                            <a href="@Url.Action("AllProducts","Products",null,Request.Url.Scheme)" class="nav-link">
+                                <i class="nav-icon fa fa-cubes"></i>
+                                <p>
+                                    لیست محصولات
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item" style="margin-top: 10px;">
+                            <a href="@Url.Action("AddProduct","Products",null,Request.Url.Scheme)" style="display:flex" class="nav-link">
+                                <span style="margin-left:7px;" class="material-symbols-outlined">deployed_code_update</span>
+                                <p>
+                                    افزودن محصول جدید
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item" style="background-color: #dc3545; margin-top: 10px;">
+                            <a style="display:flex;" class="nav-link">
+                                <span style="margin-left:7px;" class="material-symbols-outlined">create_new_folder</span>
+                                <p>
+                                    افزودن دسته بندی
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item" style="margin-top: 10px;">
+                            <a href="@Url.Action("AddDiscount","Discounts",null,Request.Url.Scheme)" class="nav-link">
+                                <i class="nav-icon fa fa-tags"></i>
+                                <p>
+                                    ثبت کد تخفیف
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">افزودن دسته بندی</h1>
+                        <i class="fa-file-plus" style="color: #ff2929;"></i>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-left">
+                            <li><a style="text-decoration:none;" href="https://localhost:44322/Admin/Admin/Panel">پنل مدیر</a></li>
+                            <li style="padding-left:8px; padding-right:8px;">/</li>
+                            <li class="">افزودن دسته بتدی</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 style="font-size: 22px;" class="card-title">فرم</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
+                        <div class="col-12 row" style="padding-top: 15px;">
+                            <form id="form" class="col-7">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group col-12">
+                                    <label for="">نام دسته بندی</label>
+                                    <input class="form-control text-box single-line" data-val="true" data-val-length="نام دسته بندی باید حداکثر 30 کاراکتر داشته باشد!" data-val-length-max="30" data-val-required=" نام دسته بندی ضروری است !" id="Name" name="Name" type="text" value="">
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+                                </div>
+                                <div class="form-group col-12">
+                                    <label for="">سر دسته بندی</label>
+                                    <select class="form-control" name="ParentId" id="ParentId">
+                                        <option selected value="">ندارد</option>
+                                        @if (Model != null)
+                                        {
+                                            foreach (var item in Model)
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group col-12">
+                                    <label for="">عکس دسته بندی</label>
+                                    <input class="form-control" type="file" name="Image" id="Image" required>
+                                    <span id="file_error" class="text-danger"></span>
+                                    <span id="file_error1" class="text-danger"></span>
+                                </div>
+                                <div class="col-12 row">
+                                    <div class="form-group col-6">
+                                        <label style="color: white;" for="">/ </label>
+                                        <input onclick="ResetForm()" type="reset" class="btn btn-warning form-control" value="دوباره نویسی">
+                                    </div>
+                                    <div class="form-group col-6">
+                                        <label style="color: white;" for="">/ </label>
+                                        <input onclick="SubmitForm()" id="submit" type="submit" class="btn btn-success form-control" value="ثبت">
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="card col-5" style="margin-top: 15px;">
+                                <div style="background-color: honeydew;" class="card-header">
+                                    <h3 style="font-size: 17px;" class="card-title">دسته بندی ها</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-striped" style="font-size: 14px;">
+                                        <tr>
+                                            <th>نام</th>
+                                            <th>سر گروه</th>
+                                            <th>عکس</th>
+                                            <th>حذف</th>
+                                        </tr>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@item.Name</td>
+                                                @if (item.Category1 == null)
+                                                {
+                                                    <td>ندارد</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>@item.Category1.Name</td>
+                                                }
+                                                <td><img style="width: 50px; height: 50px;" src="~/Images/category-image/@item.Image" alt=""></td>
+                                                <td><button type="button" onclick="DeleteCategory(categoryId = @item.Id)"  class="btn"  style="background-color: inherit; width: 30px; height: 30px;"><span style="color: red; font-size: 30px;" class="material-symbols-outlined">delete_forever</span></button></td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <!-- To the right -->
+        <div class="float-right d-none d-sm-block-down">
+            Anything you want
+        </div>
+        <!-- Default to the left -->
+        <strong>CopyLeft &copy; 2018 <a href="http://github.com/hesammousavi/">حسام موسوی</a>.</strong>
+    </footer>
+</div>
+<!-- ./wrapper -->
+
+
+
+
+
+<script>
+
+    function ResetForm() {
+        $("#submit").attr('disabled', false);
+        $("#file_error").html("");
+        $("#file_error1").html("");
+        $("#form").reset();
+    }
+
+
+    $(document).ready(function () {
+        $("#Image").change(function () {
+            $("#file_error").html("");
+            $("#file_error1").html("");
+            $(".file_upload1").css("border-color", "#F0F0F0");
+            $("#submit").attr('disabled', false);
+            var file_size = $('#Image')[0].files[0].size;
+            if (file_size > 500000) {
+                $("#file_error").html("<p style='color:#FF0000'>حجم عکس نمیتواند بیش از 500 Kb باشد!</p>");
+                $(".file_upload1").css("border-color", "#FF0000");
+                $("#submit").attr('disabled', true);
+                return false;
+            }
+            var filename = $('#Image')[0].files[0].name;
+            var extension = filename.substr(filename.lastIndexOf("."));
+            var allowedExtensionsRegx = /(\.jpg|\.jpeg|\.png)$/i;
+            var isAllowed = allowedExtensionsRegx.test(extension);
+            if (isAllowed == false) {
+                $("#file_error1").html("<p style='color:#FF0000'>فرمت عکس اشتباه است!</p>");
+                $(".file_upload1").css("border-color", "#FF0000");
+                $("#submit").attr('disabled', true);
+            }
+            return true;
+        });
+    });
+
+
+    $(function () {
+        $('#submit').click(function () {
+            if ($("#form").valid()) {
+                return false;
+            }
+            else {
+                return false;
+            }
+        });
+    })
+
+
+
+
+    function SubmitForm() {
+        $("#form").submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            var fileUpload = $("#Image").get(0);
+            var files = fileUpload.files;
+            formData.set('Image', files[0]);
+
+            $.ajax({
+                url: 'AddCategory',
+                type: 'POST',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data.message != null) {
+                        alert(data.message);
+                        $("#asdf").load(data.action);
+                    }
+                    else if (data != "false") {
+                        alert(data);
+                    }
+                },
+                error: function (e) {
+                    alert("error : " + e.statusText);
+                }
+            });
+        });
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+

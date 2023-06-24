@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "خانه";
+}
+
+
+
+<div class="intro">
+    <div class="intro-RightSide">
+        <div class="intro-RightSide-Title">
+            <a href="https://www.google.com"> بازی مارکت </a>
+            <p> , همراه شما در اوقات فراغت </p>
+        </div>
+        <div class="intro-RightSide-Picture">
+            <img src="~/Images/local/Untitled-22.png" alt="">
+        </div>
+    </div>
+    <div class="intro-LeftSide">
+        <div>
+            <p>امکان خرید قسطی</p>
+            <img src="~/Images/local/264329211111.png" alt="">
+        </div>
+        <div>
+            <p>ارسال رایگان</p>
+            <img src="~/images/local/free-delivery (2)2.png" alt="">
+        </div>
+        <div>
+            <p>ارسال به سراسر ایران</p>
+            <img src="~/images/local/location.png" alt="">
+        </div>
+    </div>
+</div>
+
+
+
+<h2 style="margin-bottom:30px; margin-top:80px; display:flex; justify-content:center; ">دسته بندی ها</h2>
+
+
+<div class="products-category" style="margin-bottom:80px;">
+    @if (ViewData["Categories"] != null)
+    {
+        foreach (var item in ViewData["Categories"] as List<BaziMarket2.Models.Category>)
+        {
+            <figure class="products-category-item">
+                <a class="products-category-item-image" href="@Url.Action("Products", "Product", new {category = item.Name})">
+                    <img src="~/Images/category-image/@item.Image" alt="">
+                </a>
+                <figcaption class="products-category-item-caption">
+                    <a href="@Url.Action("Products", "Product", new {category = item.Name})">@item.Name</a>
+                </figcaption>
+            </figure>
+        }
+    }
+</div>
+@Html.Action("NewProducts", "Home")
+@*@Html.Partial("_PNewProducts")*@
+
+
+
+
+
+

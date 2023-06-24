@@ -1,0 +1,109 @@
+﻿@model IEnumerable<BaziMarket2.Models.ViewModel.ProductsViewModel>
+
+
+
+
+<div class="products-category">
+    @if (ViewData["Categories"] != null)
+    {
+        foreach (var item in ViewData["Categories"] as List<BaziMarket2.Models.Category>)
+        {
+            <figure class="products-category-item">
+                <a class="products-category-item-image" href="@Url.Action("Products", "Product", new {category = item.Name})">
+                    <img src="~/Images/category-image/@item.Image" alt="">
+                </a>
+                <figcaption class="products-category-item-caption">
+                    <a href="@Url.Action("Products", "Product", new {category = item.Name})">@item.Name</a>
+                </figcaption>
+            </figure>
+        }
+    }
+</div>
+
+
+<main class="main-products">
+
+
+
+
+    <input id="category" name="category" hidden type="text" value="@ViewBag.Category" />
+
+
+    <div id="p_Products" class="container" style=" width:100%; ">
+        <div id="aaaa">
+            @Html.Action("P_Products", "Product", new { category = ViewBag.Category })
+        </div>
+    </div>
+
+    <script>
+
+        function ResetFilters() {
+            $('#itemCount option:eq(0)').attr('selected', 'selected');
+            $('#sort option:eq(0)').attr('selected', 'selected');
+            $('#categoryId option:eq(0)').attr('selected', 'selected');
+            $("#sPrice").val(null);
+            $("#ePrice").val(null);
+            $('#availableGoods').attr('checked', false);
+        }
+
+
+
+        function SubmitFilters() {
+            var sort = $("#sort").val();
+            var itemcount = $('#itemCount option:selected').val();
+            var catid = $("#categoryId").val();
+            var sprice = $("#sPrice").val();
+            var eprice = $("#ePrice").val();
+            var category = $("#category").val();
+            var availablegoods = $('#availableGoods').is(":checked");
+            var url = "https://localhost:44322/Product/Products?category=@ViewBag.Category&FiltersOn=true";
+            $.ajax({
+                url: '@Url.Action("ProductsFilters","Product",null,Request.Url.Scheme)',
+                type: 'POST',
+                data: { sort: sort, itemCount: itemcount, categoryId: catid, sPrice: sprice, ePrice: eprice, availableGoods: availablegoods, page: 1, category: category },
+                success: function (res) {
+                    //alert(res);
+                    //$("#aaaa").html(res);
+                    //$("#p_Products").load(res);
+                    //window.location.replace(url);
+                    //$("#p_Products").load(res.partial);
+                    //window.location.replace(res.action);
+                    //$("#body").html(res);
+                    window.location.href = url;
+                },
+                error: function (e) {
+                    alert("Error is : " + e);
+                }
+            })
+        }
+
+        function GoPage(page) {
+            var sort = $("#V-sort").val();
+            var itemcount = $('#V-itemCount').val();
+            var catid = $("#V-categoryId").val();
+            var sprice = $("#V-sPrice").val();
+            var eprice = $("#V-ePrice").val();
+            var availablegoods = $('#V-availableGoods').val();
+            var url = "https://localhost:44322/Product/Products?category=@ViewBag.Category&FiltersOn=true";
+
+            $.ajax({
+                url: 'ProductsFilters',
+                type: 'POST',
+                data: { sort: sort, itemCount: itemcount, categoryId: catid, sPrice: sprice, ePrice: eprice, availableGoods: availablegoods, page: page },
+                success: function (res) {
+                    //alert(res);
+                    //$("#p_Products").html(res);
+                    //window.location.reload();
+                    //$("#p_Products").load(res);
+                    window.location.replace(url);
+                },
+                error: function (e) {
+                    alert("Error is : " + e);
+                }
+            })
+        }
+
+    </script>
+
+
+</main>

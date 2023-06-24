@@ -1,0 +1,289 @@
+﻿@model BaziMarket2.Models.Product
+
+<div class="card-header bg-warning" style="border-radius: 8px;">
+    <h3 class="card-title" style="color: black; text-align: center;">مشاهده محصول</h3>
+
+    <div class="card-tools">
+        <button type="button" style="margin-top: 4px; width: 250px; height: 25px; display: flex; justify-content: center; align-items: center;" class="btn btn-block btn-outline-secondary " data-widget="collapse">
+            <span class="material-symbols-outlined">add</span>
+        </button>
+    </div>
+    <!-- /.card-tools -->
+</div>
+<!-- /.card-header -->
+<div class="card-body">
+    <div class="categoryAddress" style="width: 100%;">
+
+    </div>
+
+
+    <div class="productPage" style="width: 100%;">
+        <div class="productPage-slide">
+            <div class="slideshow-container">
+
+                @if (Model.Pictures != null)
+                {
+                    int i = 1;
+                    int count = Model.Pictures.Count;
+                    foreach (var item in Model.Pictures.OrderBy(t => t.Index))
+                    {
+                        <div class="mySlides">
+                            <div class="numbertext">@count / @i</div>
+                            <img src="~/Images/product-pictures/@item.Name" style="width:100%">
+                        </div>
+                    }
+                }
+
+                <a class="prev" onclick="plusSlides(-1)">❮</a>
+                <a class="next" onclick="plusSlides(1)">❯</a>
+
+            </div>
+            <br>
+
+            <div style="text-align:center">
+                @if (Model.Pictures != null)
+                {
+                    for (int i = 1; i <= Model.Pictures.Count; i++)
+                    {
+                        <span class="dot" onclick="currentSlide(@i)"></span>
+                    }
+                }
+            </div>
+
+            <script>
+                let slideIndex = 1;
+                showSlides(slideIndex);
+
+                function plusSlides(n) {
+                    showSlides(slideIndex += n);
+                }
+
+                function currentSlide(n) {
+                    showSlides(slideIndex = n);
+                }
+
+                function showSlides(n) {
+                    let i;
+                    let slides = document.getElementsByClassName("mySlides");
+                    let dots = document.getElementsByClassName("dot");
+                    if (n > slides.length) { slideIndex = 1 }
+                    if (n < 1) { slideIndex = slides.length }
+                    for (i = 0; i < slides.length; i++) {
+                        slides[i].style.display = "none";
+                    }
+                    for (i = 0; i < dots.length; i++) {
+                        dots[i].className = dots[i].className.replace(" active", "");
+                    }
+                    slides[slideIndex - 1].style.display = "block";
+                    dots[slideIndex - 1].className += " active";
+                }
+            </script>
+        </div>
+        <div class="productPage-text">
+            <h2>@Model.Name</h2>
+            <div class="productPage-text-property">
+                <ul>
+                    <h4>مشخصات کلی</h4>
+                    @foreach (var item in Model.Properties.OrderBy(t => t.Index))
+                    {
+                        <li>@item.Text</li>
+                    }
+                </ul>
+                <div>
+                    <p>افزودن به علاقه مندی ها <span class="material-symbols-outlined">heart_plus</span></p>
+                    <p>
+                        همرسانی : &ensp;
+                        <a href=""><i class="bi bi-telegram"></i></a>
+                        <a href=""><i class="bi bi-whatsapp"></i></a>
+                        <a href=""><i class="bi bi-linkedin"></i></a>
+                        <a href=""><i class="bi bi-twitter"></i></a>
+                        <a href=""><i class="bi bi-facebook"></i></a>
+                    </p>
+                </div>
+            </div>
+            <div class="productPage-text-cart">
+                <p>
+                    امتیاز محصول
+                </p>
+                <div class="productPage-text-cart-rate">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    @if (Model.Comments != null)
+                    {
+                        <span style="margin-left: 5px;">(@Model.Comments.Count)</span>
+                    }
+                    else
+                    {
+                        <span style="margin-left: 5px;">(0)</span>
+                    }
+                </div>
+                <ul>
+                    @*<li> <i class="bi bi-check-circle" style="margin-left: 5px; margin-top: 6px; color: blueviolet;"></i> 10 روز ضمانت بازگشت کالا </li>
+                        <li style="font-size: 30px;">@Model.Price.DevideMoneyNumber() تومان </li>
+                        <li style="  font-size: 20px; text-align: right; padding-right: 8px;">موجود</li>
+                        <li>
+                            <form action="">
+                                <label for="ProductCount"> تعداد </label>
+                                <input type="number" name="ProductCount" id="ProductCount" min="0">
+                                <button type="submit"> <i class="bi bi-cart-plus"></i> افزودن به سبد خرید </button>
+                            </form>
+                        </li>*@
+
+                    <li> <i class="bi bi-check-circle" style="margin-left: 5px; margin-top: 6px; color: blueviolet;"></i> 10 روز ضمانت بازگشت کالا </li>
+                    <li>
+                        @if (Model.Discount != null)
+                        {
+                            <p class="product-lables-discount" style="width:100%; font-family:'vazir'; justify-content:right; padding-left:15px; background-color:inherit; color:black; font-size:25px; margin-bottom:20px; margin-top:10px;">تخفیف <span style="font-family:'13'; margin-right:8px; font-size:25px;">@Model.Discount %</span></p>
+                        }
+                        <div class="product-Price" style="justify-content:space-between;">
+                            @if (Model.Discount == null)
+                            {
+                                <p style="font-size:25px;" class="product-Price-New"><b style="font-size:25px;">@Model.Price.DevideMoneyNumber()</b>&ensp;تومان</p>
+                            }
+                            else
+                            {
+                                int newPrice = (int)(Model.Price - (Model.Price * Model.Discount.Value / 100));
+                                <p style="font-size:25px;" class="product-Price-Old"><ins style="font-size:25px;">@Model.Price.DevideMoneyNumber()</ins> تومان</p>
+                                <p style="font-size:25px;" class="product-Price-New"><b style="font-size:25px;">@newPrice.DevideMoneyNumber()</b> تومان</p>
+                            }
+                        </div>
+                    </li>
+
+                    <li style="  font-size: 20px; text-align: right; padding-right: 8px;">
+                        موجودی :
+                        @if (Model.InStockCount > 0)
+                        {
+                            <span style="color: forestgreen;">موجود</span>
+                        }
+                        else
+                        {
+                            <span style="color: red;">ناموجود</span>
+                        }
+                    </li>
+                    @if (Model.InStockCount > 0)
+                    {
+                        <li>
+                            <form action="AddProductToCart" method="post">
+                                <input name="ProductId" type="hidden" value="@Model.Id" />
+                                <input name="UserId" type="hidden" value="@ViewBag.UserId" />
+                                <label for="ProductCount"> تعداد </label>
+                                <input type="number" name="ProductCount" value="1" id="ProductCount" min="1" max="@Model.InStockCount">
+                                <button type="submit"> <i class="bi bi-cart-plus" style="color:white;"></i> افزودن به سبد خرید </button>
+                            </form>
+                        </li>
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="product-tab">
+        <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">توضیحات</button>
+        <button class="tablinks" onclick="openCity(event, 'Paris')">مشخصات</button>
+        <button class="tablinks" onclick="openCity(event, 'Tokyo')">نظرات</button>
+        <button class="tablinks" onclick="openCity(event, 'Tehran')">پرسش و پاسخ</button>
+    </div>
+
+    <div id="London" class="product-tab-content product-tab-description">
+        @foreach (var item in Model.Descriptions.OrderBy(t => t.Index))
+        {
+
+            <h4 style="width:100%;">@item.Title</h4>
+            <p>@item.Text</p>
+            <figure>
+                <img src="~/Images/description-image/@item.Image" alt="">
+            </figure>
+
+        }
+    </div>
+
+
+    <div id="Paris" class="product-tab-specification  product-tab-content">
+        @foreach (var item in Model.Specifications.OrderBy(t => t.Index))
+        {
+
+            <div>
+                <p>@item.Title</p>
+                <p>@item.Text</p>
+            </div>
+
+        }
+    </div>
+
+    <div id="Tokyo" class="product-tab-content  product-comments">
+        <h5>نظرات</h5>
+        <h5 style="width: 100%; height: auto; padding-top: 25px; margin: 0%; border-top: 4px solid black; margin-bottom: 15px;">@Model.Comments.Count دیدگاه برای محصول</h5>
+        @if (Model.Comments != null)
+        {
+            foreach (var item in Model.Comments)
+            {
+                <div class="product-comments-comment">
+                    <p>@item.User.FirstName  @item.User.LastName  (@item.RegisterDate)</p>
+                    <p>@item.Text</p>
+                    <p>
+                        @for (int l = 1; l <= item.Rate; l++)
+                        {
+                            <i class="bi bi-star-fill"></i>
+                        }
+                    </p>
+                </div>
+            }
+        }
+    </div>
+
+
+
+
+
+    <div id="Tehran" class="product-tab-content product-questions">
+        <h5>پرسش و پاسخ</h5>
+        <h5 style="width: 100%; height: auto; padding-top: 25px; margin: 0%; border-top: 4px solid black; margin-bottom: 15px;">@Model.Questions.Count پرسش برای محصول</h5>
+
+        @if (Model.Questions != null)
+        {
+            foreach (var item in Model.Questions)
+            {
+                <div class="product-questions-question">
+                    <p><b>سوال</b> @item.User.FirstName  @item.User.LastName (@item.RegisterDate)</p>
+                    <p>@item.Text</p>
+                    @if (item.Answer != null)
+                    {
+                        <p><strong>پاسخ</strong> @item.Answer.User.FirstName  @item.Answer.User.LastName [@item.Answer.User.Role.Title]  (@item.Answer.RegisterDate)</p>
+                        <p>@item.Answer.Text</p>
+                    }
+                </div>
+            }
+        }
+    </div>
+
+
+    <script>
+        function openCity(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("product-tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "flex";
+            evt.currentTarget.className += " active";
+        }
+
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+    </script>
+
+
+
+
+</div>
+<!-- /.card-body -->

@@ -1,0 +1,84 @@
+﻿@model List<BaziMarket2.Models.ViewModel.QuestionEditViewModel>
+
+<div class="card-header">
+    <h3 style="font-size: 22px;" class="card-title">پرسش ها</h3>
+
+    <div class="card-tools">
+        <button type="button" class="btn btn-tool" data-widget="collapse" style="width: 100px;">
+            <span style="font-size: 22px; color: #007bff;" class="material-symbols-outlined">add</span>
+        </button>
+    </div>
+    <!-- /.card-tools -->
+</div>
+<!-- /.card-header -->
+<div class="card-body">
+    <div class="card" style="border:4px solid  #deeeff;">
+        <div class="card-header" style="background-color: #deeeff;">
+            <h3 style="font-size: 18px;">پرسش ها ی محصول</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered" style="font-size: 14px; padding-bottom: 15px;">
+                <tr>
+                    <th>نوع</th>
+                    <th>کاربر</th>
+                    <th>متن</th>
+                    <th>تاریخ ثبت</th>
+                    <th>وضعیت</th>
+                    <th>حذف</th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr style="border-bottom: solid 3px gray;">
+                        <td><b style="color: #d32535;">پرسش</b></td>
+                        <td>@item.User.Username</td>
+                        <td>@item.Text</td>
+                        <td>@item.RegisterDate</td>
+                        <td>
+                            @if (item.IsActive)
+                            {
+                                <button onclick="ChangeQuestionIsActive(Id = @item.Id)" style="cursor: pointer; width: 55px; height: 25px;" type="button" class="badge badge-success">فعال</button>
+                            }
+                            else
+                            {
+                                <button onclick="ChangeQuestionIsActive(Id = @item.Id)" style="cursor: pointer; width: 55px; height: 25px;" type="button" class="badge badge-danger">غیر فعال</button>
+                            }
+                        </td>
+                        <td class="col-1"><button onclick="DeleteQuestion(Id = @item.Id)" class="btn" style="background-color: inherit; width: 30px; height: 30px;"><span style="color: red; font-size: 30px;" class="material-symbols-outlined">delete_forever</span></button></td>
+                    </tr>
+                    if (item.Answer != null)
+                    {
+                        <tr>
+                            <td><b style="color: #0076f4;">پاسخ</b></td>
+                            <td>@item.Answer.User.Username</td>
+                            <td>@item.Answer.Text</td>
+                            <td>@item.Answer.RegisterDate</td>
+                            <td>
+                                @if (item.IsActive)
+                                {
+                                    <button onclick="ChangeAnswerIsActive(Id = @item.Id)" style="cursor: pointer; width: 55px; height: 25px;" type="button" class="badge badge-success">فعال</button>
+                                }
+                                else
+                                {
+                                    <button onclick="ChangeAnswerIsActive(Id = @item.Id)" style="cursor: pointer; width: 55px; height: 25px;" type="button" class="badge badge-danger">غیر فعال</button>
+                                }
+                            </td>
+                            <td class="col-1"><button onclick="DeleteAnswe(Id = @item.Answer.Id)" class="btn" style="background-color: inherit; width: 30px; height: 30px;"><span style="color: red; font-size: 30px;" class="material-symbols-outlined">delete_forever</span></button></td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td><b style="color: #0076f4;">پاسخ</b></td>
+                            <td>_ _ _ _ _ _ _ _ </td>
+                            <td><pre>  __   __   __   __   __   __   __   __   __   __   __   __   __   __   __   __   __   __   __   __   __</pre></td>
+                            <td>. . . . . . . . </td>
+                        </tr>
+                    }
+                }
+            </table>
+
+        </div>
+
+    </div>
+</div>
+<!-- /.card-body -->

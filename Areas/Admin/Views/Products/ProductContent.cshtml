@@ -1,0 +1,734 @@
+﻿
+<div class="wrapper" id="qaz">
+    <!-- Navbar -->
+    <nav style="background-color: #007bff !important;" class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="@Url.Action("Panel","Admin",null,Request.Url.Scheme)" class="nav-link">پنل مدیریت</a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a class="nav-link">تماس</a>
+            </li>
+        </ul>
+    </nav>
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Brand Logo -->
+        <a href="https://localhost:44322/" class="brand-link bg-danger">
+            <img src="~/Images/local/Layer 9.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                 style="opacity: .8">
+            <span class="brand-text font-weight-light">بازی مارکت</span>
+        </a>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div>
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="info">
+                        <p class="text-white">@ViewBag.AdminName</p>
+                    </div>
+                    <div class="image" style="margin-right:40px;">
+                        <img src="~/Images/user-image/@ViewBag.AdminImage" class="img-circle" style="width:50px; height:50px;" alt="User Image">
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
+                        with font-awesome or any other icon font library -->
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Panel","Admin",null,Request.Url.Scheme)" class="nav-link" style=" margin-top: 10px;">
+                                <i class="nav-icon fa fa-bars"></i>
+                                <p>
+                                    صفحه ی اصلی
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item" style=" margin-top: 10px;">
+                            <a href="https://localhost:44322/Admin/Users/AllUsers" class="nav-link">
+                                <i class="nav-icon fa fa-users"></i>
+                                <p>
+                                    لیست کاربران
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item" style="margin-top: 10px;">
+                            <a href="@Url.Action("RegisterUser","Users",null,Request.Url.Scheme)" class="nav-link">
+                                <i class="nav-icon fa fa-user-plus"></i>
+                                <p>
+                                    ثبت نام کاربر جدید
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item" style="margin-top: 10px;">
+                            <a href="@Url.Action("AllProducts","Products",null,Request.Url.Scheme)" class="nav-link">
+                                <i class="nav-icon fa fa-cubes"></i>
+                                <p>
+                                    لیست محصولات
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item" style="margin-top: 10px;">
+                            <a href="@Url.Action("AddProduct","Products",null,Request.Url.Scheme)" style="display:flex" class="nav-link">
+                                <span style="margin-left:7px;" class="material-symbols-outlined">deployed_code_update</span>
+                                <p>
+                                    افزودن محصول جدید
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item" style="margin-top: 10px;">
+                            <a href="@Url.Action("AddCategory","Category",null,Request.Url.Scheme)" style="display:flex;" class="nav-link">
+                                <span style="margin-left:7px;" class="material-symbols-outlined">create_new_folder</span>
+                                <p>
+                                    افزودن دسته بندی
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item" style="margin-top: 10px;">
+                            <a href="@Url.Action("AddDiscount","Discounts",null,Request.Url.Scheme)" class="nav-link">
+                                <i class="nav-icon fa fa-tags"></i>
+                                <p>
+                                    ثبت کد تخفیف
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+
+                <div class="col-lg-12" style="height: 50px; margin-top:50px; margin-bottom: 30px; z-index:100; position: relative;">
+                    <div id="viewProductBox" class="card card-info collapsed-card card-outline" style="border-top: solid 5px gray;">
+                        @Html.Action("P_ViewProduct", "Products", new { ProductId = ViewBag.ProductId })
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <input id="ViewProductUrl" type="text" value="@Url.Action("P_ViewProduct","Products",new {ProductId = ViewBag.ProductId},Request.Url.Scheme)" hidden />
+
+
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">صفحه ی محصول</h1>
+                        <i class="fa-file-plus" style="color: #ff2929;"></i>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-left">
+                            <li class="breadcrumb-item"><a href="@Url.Action("Panel","Admin",null,Request.Url.Scheme)">پنل مدیر</a></li>
+                            <li style="padding-left:8px; padding-right:8px;">/</li>
+                            <li class="breadcrumb-item"><a href="@Url.Action("AllProducts","Products",null,Request.Url.Scheme)">لیست محصولات</a></li>
+                            <li style="padding-left:8px; padding-right:8px;">/</li>
+                            <li class="breadcrumb-item">محتوای محصول</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+
+                <div id="desc">
+                    <div class="col-md-12" style="margin-bottom: 50px;">
+                        <div id="descBox" class="card card-info collapsed-card card-outline" style="border-top: solid 5px black;">
+                            @Html.Action("AddDescription", "Products", new { ProductId = ViewBag.ProductId })
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+
+                    function resetForm() {
+                        $("#submit").attr('disabled', false);
+                        $("#file_error").html("");
+                        $("#file_error1").html("");
+                        $("#form").reset();
+                    }
+                    $(document).ready(function () {
+                        $("#Image").change(function () {
+                            $("#file_error").html("");
+                            $("#file_error1").html("");
+                            $(".file_upload1").css("border-color", "#F0F0F0");
+                            $("#submit").attr('disabled', false);
+                            var file_size = $("#Image")[0].files[0].size;
+                            if (file_size > 500000) {
+                                $("#file_error").html("<p style='color:#FF0000'>حجم عکس نمیتواند بیش از 500 Kb باشد!</p>");
+                                $(".file_upload1").css("border-color", "#FF0000");
+                                $("#submit").attr('disabled', true);
+                                return false;
+                            }
+                            var filename = $("#Image")[0].files[0].name;
+                            var extension = filename.substr(filename.lastIndexOf("."));
+                            var allowedExtensionsRegx = /(\.jpg|\.jpeg|\.png)$/i;
+                            var isAllowed = allowedExtensionsRegx.test(extension);
+                            if (isAllowed == false) {
+                                $("#file_error1").html("<p style='color:#FF0000'>فرمت عکس اشتباه است!</p>");
+                                $(".file_upload1").css("border-color", "#FF0000");
+                                $("#submit").attr('disabled', true);
+                            }
+                            return true;
+                        });
+                    });
+                    $(function () {
+                        $('#submit').click(function () {
+                            if ($("#form").valid()) {
+                                return false;
+                            }
+                            else {
+                                return false;
+                            }
+                        });
+                    })
+                    function submitForm() {
+                        $("#form").submit(function (e) {
+                            e.preventDefault();
+                            var formData = new FormData(this);
+                            var fileUpload = $("#Image").get(0);
+                            var files = fileUpload.files;
+                            formData.set('Image', files[0]);
+
+                            $.ajax({
+                                url: 'AddDescription',
+                                type: 'POST',
+                                data: formData,
+                                cache: false,
+                                contentType: false,
+                                processData: false,
+                                success: function (data) {
+                                    if (data.message != null) {
+                                        alert(data.message);
+                                        $("#viewProductBox").load($("#ViewProductUrl").val());
+                                        $("#descBox").load(data.partial);
+                                        $("#descBox").removeClass("collapsed-card");
+                                    }
+                                    else if (data.error != null) {
+                                        alert(data.error);
+                                    }
+                                },
+                                error: function (e, xhr, opt) {
+                                    alert("Error is : " + eval(e));
+                                    //alert("Error is => " + opt.url + ": " + xhr.status + " " + xhr.statusText);
+                                }
+                            });
+                        });
+                    }
+
+
+                    function DeleteDescription(Id) {
+                        $.ajax({
+                            url: 'DeleteDescription',
+                            type: 'POST',
+                            data: { descriptionId: Id },
+                            success: function (data) {
+                                if (data != "false") {
+                                    $("#viewProductBox").load($("#ViewProductUrl").val());
+                                    $("#descBox").html(data);
+                                    //$("#descBox").removeClass("collapsed-card");
+                                }
+                                else {
+                                    alert(data);
+                                }
+                            },
+                            error: function (e) {
+                                alert("Error is : " + e);
+                            }
+                        })
+                    }
+
+                </script>
+
+
+
+
+
+
+
+
+
+
+                <div class="col-md-12" style="margin-bottom: 50px;">
+                    <div id="pictureBox" class="card card-info collapsed-card card-outline" style="border-top: solid 5px black;">
+                        @Html.Action("P_AddPicture", "Products", new { ProductId = ViewBag.ProductId })
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+                <script>
+                    function ResetFormPicture() {
+                        $("#submitPicture").attr('disabled', false);
+                        $("#file_error_Picture").html("");
+                        $("#file_error1_Picture").html("");
+                        $("#formPicture").reset();
+                    }
+                    $(document).ready(function () {
+                        $("#filePicture").change(function () {
+                            $("#file_error_Picture").html("");
+                            $("#file_error1_Picture").html("");
+                            $(".file_upload1_Picture").css("border-color", "#F0F0F0");
+                            $("#submitPicture").attr('disabled', false);
+                            var file_size = $("#filePicture")[0].files[0].size;
+                            if (file_size > 500000) {
+                                $("#file_error_Picture").html("<p style='color:#FF0000'>حجم عکس نمیتواند بیش از 500 Kb باشد!</p>");
+                                $(".file_upload1_Picture").css("border-color", "#FF0000");
+                                $("#submitPicture").attr('disabled', true);
+                                return false;
+                            }
+                            var filename = $("#filePicture")[0].files[0].name;
+                            var extension = filename.substr(filename.lastIndexOf("."));
+                            var allowedExtensionsRegx = /(\.jpg|\.jpeg|\.png)$/i;
+                            var isAllowed = allowedExtensionsRegx.test(extension);
+                            if (isAllowed == false) {
+                                $("#file_error1_Picture").html("<p style='color:#FF0000'>فرمت عکس اشتباه است!</p>");
+                                $(".file_upload1_Picture").css("border-color", "#FF0000");
+                                $("#submitPicture").attr('disabled', true);
+                            }
+                            return true;
+                        });
+                    });
+                    $(function () {
+                        $('#submitPicture').click(function () {
+                            if ($("#formPicture").valid()) {
+                                return false;
+                            }
+                            else {
+                                return false;
+                            }
+                        });
+                    })
+                    function SubmitFormPicture() {
+                        $("#formPicture").submit(function (e) {
+                            e.preventDefault();
+                            var formData = new FormData(this);
+                            var fileUpload = $("#filePicture").get(0);
+                            var files = fileUpload.files;
+                            formData.set('Image', files[0]);
+
+                            $.ajax({
+                                url: 'P_AddPicture',
+                                type: 'POST',
+                                data: formData,
+                                cache: false,
+                                contentType: false,
+                                processData: false,
+                                success: function (data) {
+                                    //alert(data);
+                                    if (data != "false") {
+                                        alert("تصویر با موفقیت افزوده شد");
+                                        $("#pictureBox").html(data);
+                                        $("#pictureBox").removeClass("collapsed-card");
+                                        $("#viewProductBox").load($("#ViewProductUrl").val());
+                                    }
+                                },
+                                error: function (ts) {
+                                    $("#p_Picture").html(ts.responseText);
+                                    //alert("Error is => " + opt.url + ": " + xhr.status + " " + xhr.statusText);
+                                }
+                            });
+                        });
+                    }
+                    function DeletePicture(Id) {
+                        $.ajax({
+                            url: 'DeletePicture',
+                            type: 'POST',
+                            data: { pictureId: Id },
+                            success: function (res) {
+                                if (res != "false") {
+                                    $("#viewProductBox").load($("#ViewProductUrl").val());
+                                    $("#pictureBox").html(res);
+                                }
+                            },
+                            error: function (e) {
+                                alert("Error : " + e)
+                            }
+                        })
+                    }
+                </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <div class="col-md-12" style="margin-bottom: 50px;">
+                    <div id="specBox" class="card card-info collapsed-card card-outline" style="border-top: solid 5px black;">
+                        @Html.Action("P_AddSpecification", "Products", new { ProductId = ViewBag.ProductId })
+                    </div>
+                    <!-- /.card -->
+                    <script>
+                        $(function () {
+                            $('#submitSpecification').click(function () {
+                                if ($("#formSpecification").valid()) {
+                                    return false;
+                                }
+                                else {
+                                    return false;
+                                }
+                            });
+                        })
+                        function SubmitFormSpecification() {
+                            $("#formSpecification").submit(function (e) {
+                                e.preventDefault();
+                                var formData = new FormData(this);
+
+                                $.ajax({
+                                    url: 'P_AddSpecification',
+                                    type: 'POST',
+                                    data: formData,
+                                    cache: false,
+                                    contentType: false,
+                                    processData: false,
+                                    success: function (data) {
+                                        if (data.message != null) {
+                                            alert(data.message);
+                                            $("#viewProductBox").load($("#ViewProductUrl").val());
+                                            $("#specBox").load(data.partial);
+                                            $("#specBox").removeClass("collapsed-card");
+                                        }
+                                    },
+                                    error: function (e) {
+                                        alert("Error is : " + eval(e));
+                                        //alert("Error is => " + opt.url + ": " + xhr.status + " " + xhr.statusText);
+                                    }
+                                });
+                            });
+                        }
+                        function DeleteSpecification(Id) {
+                            $.ajax({
+                                url: 'DeleteSpecification',
+                                type: 'POST',
+                                data: { specificationId: Id },
+                                success: function (res) {
+                                    if (res != "false") {
+                                        $("#viewProductBox").load($("#ViewProductUrl").val());
+                                        $("#specBox").html(res);
+                                    }
+                                },
+                                error: function (e) {
+                                    alert("Error : " + e)
+                                }
+                            })
+                        }
+                    </script>
+                </div>
+                <!-- /.col -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <div class="col-md-12" style="margin-bottom: 50px;">
+                    <div id="propertyBox" class="card card-info collapsed-card card-outline" style="border-top: solid 5px black;">
+                        @Html.Action("P_AddProperty", "Products", new { ProductId = ViewBag.ProductId })
+                    </div>
+                    <!-- /.card -->
+                    <script>
+                        $(function () {
+                            $('#submitProperty').click(function () {
+                                if ($("#formProperty").valid()) {
+                                    return false;
+                                }
+                                else {
+                                    return false;
+                                }
+                            });
+                        })
+                        function SubmitFormProperty() {
+                            $("#formProperty").submit(function (e) {
+                                e.preventDefault();
+                                var formData = new FormData(this);
+
+                                $.ajax({
+                                    url: 'P_AddProperty',
+                                    type: 'POST',
+                                    data: formData,
+                                    cache: false,
+                                    contentType: false,
+                                    processData: false,
+                                    success: function (data) {
+                                        if (data.partial != null) {
+                                            alert(data.message);
+                                            $("#viewProductBox").load($("#ViewProductUrl").val());
+                                            $("#propertyBox").load(data.partial);
+                                            $("#propertyBox").removeClass("collapsed-card");
+                                        }
+                                    },
+                                    error: function (ts) {
+                                        $("#propertyBox").html(ts.responseText);                                                                            
+                                        //alert("Error is => " + opt.url + ": " + xhr.status + " " + xhr.statusText);
+                                    }
+                                });
+                            });
+                        }
+                        function DeleteProperty(Id) {
+                            $.ajax({
+                                url: 'DeleteProperty',
+                                type: 'POST',
+                                data: { propertyId: Id },
+                                success: function (res) {
+                                    if (res != "false") {
+                                        $("#viewProductBox").load($("#ViewProductUrl").val());
+                                        $("#propertyBox").html(res);
+                                    }
+                                },
+                                error: function (e) {
+                                    alert("Error : " + e)
+                                }
+                            })
+                        }
+                    </script>
+                </div>
+                <!-- /.col -->
+
+
+
+
+
+
+
+
+                <div class="col-md-12" style="margin-bottom: 50px;">
+                    <div id="commentBox" class="card card-info collapsed-card card-outline" style="border-top: solid 5px black;">
+                        @Html.Action("P_EditComments", "Products", new { ProductId = ViewBag.ProductId })
+                    </div>
+                    <!-- /.card -->
+                    <script>
+                        function ChangeCommentIsActive(Id) {
+                            $.ajax({
+                                url: '@Url.Action("ChangeCommentIsActive","Products",null,Request.Url.Scheme)',
+                                type: 'POST',
+                                data: { commentId: Id },
+                                success: function (data) {
+                                    if (data != "false") {
+                                        $("#viewProductBox").load($("#ViewProductUrl").val());
+                                        $("#commentBox").html(data);
+                                        //$("#commentBox").removeClass("collapsed-card");
+                                    }
+                                    else {
+                                        alert(data);
+                                    }
+                                },
+                                error: function (ts) {
+                                    $("#commentBox").html(ts.responseText);                                    
+                                }
+                            })
+                        }
+                        function DeleteComment(Id) {
+                            $.ajax({
+                                url: 'DeleteComment',
+                                type: 'POST',
+                                data: { commentId: Id },
+                                success: function (data) {
+                                    if (data != "false") {
+                                        $("#viewProductBox").load($("#ViewProductUrl").val());
+                                        $("#commentBox").html(data);
+                                        //$("#commentBox").removeClass("collapsed-card");
+                                    }
+                                },
+                                error: function (e) {
+                                    alert("Error is : " + e);
+                                }
+                            })
+                        }
+                    </script>
+                </div>
+                <!-- /.col -->
+
+
+
+
+
+                <div class="col-md-12" style="margin-bottom: 50px;">
+                    <div id="questionBox" class="card card-info collapsed-card card-outline" style="border-top: solid 5px black;">
+                        @Html.Action("P_EditQuestions", "Products", new { ProductId = ViewBag.ProductId })
+                    </div>
+                    <!-- /.card -->
+                    <script>
+                        function ChangeQuestionIsActive(Id) {
+                            $.ajax({
+                                url: 'ChangeQuestionIsActive',
+                                type: 'POST',
+                                data: { questionId: Id },
+                                success: function (data) {
+                                    if (data != "false") {
+                                        $("#viewProductBox").load($("#ViewProductUrl").val());
+                                        $("#questionBox").html(data);
+                                    }
+                                },
+                                error: function (ts) {
+                                    $("#questionBox").html(ts.responseText);                                                                        
+                                }
+                            })
+                        }
+                        function DeleteQuestion(Id) {
+                            $.ajax({
+                                url: 'DeleteQuestion',
+                                type: 'POST',
+                                data: { questionId: Id },
+                                success: function (data) {
+                                    if (data != "false") {
+                                        $("#viewProductBox").load($("#ViewProductUrl").val());
+                                        $("#questionBox").html(data);
+                                    }
+                                },
+                                error: function (e) {
+                                    alert("Error is : " + e);
+                                }
+                            })
+                        }
+                        function ChangeAnsweIsActive(Id) {
+                            $.ajax({
+                                url: 'ChangeAnswerIsActive',
+                                type: 'POST',
+                                data: { questionId: Id },
+                                success: function (data) {
+                                    if (data != "false") {
+                                        $("#viewProductBox").load($("#ViewProductUrl").val());
+                                        $("#questionBox").html(data);
+                                    }
+                                },
+                                error: function (e) {
+                                    alert("Error is : " + e);
+                                }
+                            })
+                        }
+                        function DeleteAnswer(Id) {
+                            $.ajax({
+                                url: 'DeleteAnswer',
+                                type: 'POST',
+                                data: { questionId: Id },
+                                success: function (data) {
+                                    if (data != "false") {
+                                        $("#viewProductBox").load($("#ViewProductUrl").val());
+                                        $("#questionBox").html(data);
+                                    }
+                                },
+                                error: function (e) {
+                                    alert("Error is : " + e);
+                                }
+                            })
+                        }
+                    </script>
+                </div>
+                <!-- /.col -->
+
+
+
+
+
+
+
+
+
+
+                <button type="button" class="btn btn-danger btn-floating btn-lg" id="btn-back-to-top" style=" position: fixed; bottom: 20px; left: 20px; display: none; ">
+                    <span style="font-size: 20px;" class="material-symbols-outlined">arrow_upward</span>
+                </button>
+
+
+
+
+
+
+
+
+
+                <script>
+                    let mybutton = document.getElementById("btn-back-to-top");
+
+                    // When the user scrolls down 20px from the top of the document, show the button
+                    window.onscroll = function () {
+                        scrollFunction();
+                    };
+
+                    function scrollFunction() {
+                        if (
+                            document.body.scrollTop > 40 ||
+                            document.documentElement.scrollTop > 40
+                        ) {
+                            mybutton.style.display = "block";
+                        } else {
+                            mybutton.style.display = "none";
+                        }
+                    }
+                    // When the user clicks on the button, scroll to the top of the document
+                    mybutton.addEventListener("click", backToTop);
+
+                    function backToTop() {
+                        document.body.scrollTop = 0;
+                        document.documentElement.scrollTop = 0;
+                    }
+                </script>
+
+
+
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <!-- To the right -->
+        <div class="float-right d-none d-sm-block-down">
+            Anything you want
+        </div>
+        <!-- Default to the left -->
+        <strong>CopyLeft &copy; 2018 <a href="http://github.com/hesammousavi/">حسام موسوی</a>.</strong>
+    </footer>
+
+
+
+
+
+</div>
+<!-- ./wrapper -->

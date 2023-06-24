@@ -1,0 +1,69 @@
+﻿
+<div id="asdf" class="main-login">
+    <img class="login-backImage" src="~/images/local/PS5-login.png" alt="">
+    <div class="login">
+        <form id="loginForm"  class="login-form">
+            <h2 class="login-form-title">
+                <p>ورود</p>
+                /<a href="https://localhost:44322/Home/RegisterUser">ثبت نام</a>
+            </h2>
+
+            <ul class="login-form-ul">
+                <li class="login-form-items-item">
+                    <label for="Username">نام کاربری : </label>
+                    <input type="text" name="username" id="username" placeholder="شماره موبایل خود را وارد کنید" required>
+                </li>
+                <li class="login-form-items-item">
+                    <label for="Password"> رمز عبور : </label>
+                    <input type="password" name="password" id="password" placeholder="رمز عبور خود را وارد کنید" required>
+                </li>
+                <li class="login-form-items-item">
+                    <label for="RememberMe"> مرا به خاطر بسپار : </label>
+                    <input style="width:20px; height:20px; margin-right:190px;" name="rememberMe" id="rememberMe" type="checkbox" />
+                </li>
+                <li class="login-form-buttons">
+                    <div class="login-form-buttons-reset">
+                        <input type="button" value="فراموشی رمز عبور">
+                    </div>
+                    <div class="login-form-buttons-submit">
+                        <input type="submit" value="ورود" id="submit">
+                    </div>
+                </li>
+            </ul>
+            <input name="returnUrl" id="returnUrl" type="text" hidden value="@ViewBag.ReturnUrl" />
+            <input id="reset" hidden type="reset"/>
+        </form>
+    </div>
+</div>
+
+
+<script>
+
+    $("#loginForm").submit(function (e) {
+        e.preventDefault();
+        
+        var username = $('#username').val();
+        var password = $('#password').val();
+        var rememberMe = $('#rememberMe').is(":checked");
+        var returnUrl = $('#returnUrl').val();
+        $.ajax({
+            url: 'https://localhost:44322/Home/Login',
+            type: 'POST',
+            data: { Username: username, Password: password, RememberMe: rememberMe, ReturnUrl: returnUrl },
+            success: function (res) {
+                if (res == "error") {
+                    alert("نام کاربری یا رمز عبور اشتباه است");
+                    $('#reset').click();              
+                }
+                else {
+                    window.location.replace(res);
+                }
+            },
+            error: function (ts) {
+                $("#body").html(ts.responseText);
+            }
+        });
+ 
+    });
+
+</script>

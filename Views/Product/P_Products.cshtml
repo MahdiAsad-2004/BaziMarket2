@@ -1,0 +1,231 @@
+﻿@model IEnumerable<BaziMarket2.Models.ViewModel.ProductsViewModel>
+
+
+<div class="container" style="width:100%;">
+
+
+
+    @if (ViewBag.Category != null)
+    {
+        <h2 style="margin-bottom:60px; margin-top:80px; display:flex; justify-content:center; ">@ViewBag.Category</h2>
+    }
+    else
+    {
+        <h2 style="margin-bottom:60px; margin-top:80px; display:flex; justify-content:center; ">همه ی محصولات</h2>
+    }
+
+
+
+
+    <form>
+        <div class="row" style=" background-color: gainsboro; width: 100%; height: 150px; margin-left: 20px; border-radius: 6px; border: solid blue 3px; padding: 20px; display: flex; flex-direction: row; justify-content: space-between; margin: 0 auto; margin-bottom: 100px;">
+            <div class="form-group row col-2" style="display:flex; flex-direction:row; font-size:16px;">
+                <label>مرتب سازی بر اساس</label>
+                <select id="sort" name="sort" class="form-select" style="margin-bottom:35px;">
+                    <option value="">پیشفرض</option>
+                    @foreach (var item in ViewData["Sorts"] as List<BaziMarket2.OtherClases.Sort>)
+                    {
+                        if (ViewBag.Sort == item.Id)
+                        {
+                            <option selected value="@item.Id">@item.Name</option>
+                        }
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group row col-2" style="display:flex; flex-direction:row; font-size:16px;">
+                <label>تعداد در صفحه</label>
+                <select id="itemCount" name="itemCount" class="form-select" style="margin-bottom:35px;">
+                    @foreach (var item in ViewData["ItemCounts"] as List<int>)
+                    {
+                        if (ViewBag.ItemCount == item)
+                        {
+                            <option selected value="@item">@item</option>
+                        }
+                        else
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class=" row col-8" style="display:flex; flex-direction:row; font-size:16px; justify-content:space-between;">
+                <div class="row" style="display:flex; flex-direction:row; flex-wrap:nowrap;">
+                    <div class="form-group-sm col-3">
+                        <label>شروع قیمت </label>
+                        <input id="sPrice" class="form-control" type="number" value="@ViewBag.SPrice" min="0" max="500000000" step="1000" />
+                    </div>
+                    <div class="form-group-sm col-3">
+                        <label>پایان قیمت</label>
+                        <input id="ePrice" class="form-control" type="number" value="@ViewBag.EPrice" min="0" max="500000000" step="1000" />
+                    </div>
+                    @if (ViewBag.Category == null)
+                    {
+                        <div class="form-group-sm col-3">
+                            <label>دسته بندی</label>
+                            <select id="categoryId" class="form-control">
+                                <option value="">همه دسنه بندی ها</option>
+                                @foreach (var item in ViewData["Categories"] as List<BaziMarket2.Models.Category>)
+                                {
+                                    if (ViewBag.CategoryId == item.Id)
+                                    {
+                                        <option selected value="@item.Id">@item.Name</option>
+                                    }
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                    else
+                    {
+                        <select id="categoryId" hidden class="form-control">
+                            @foreach (var item in ViewData["Categories"] as List<BaziMarket2.Models.Category>)
+                            {
+                                if (ViewBag.CategoryId == item.Id)
+                                {
+                                    <option selected value="@item.Id">@item.Name</option>
+                                }
+                            }
+                        </select>
+                    }
+                    <div class="form-group-sm col-2" style=" padding-top:25px;">
+                        <label>کالا های موجود</label>
+                        @if (ViewBag.AvailableGoods == true)
+                        {
+                            <input id="availableGoods" class="form-check-input" type="checkbox" checked />
+                        }
+                        else
+                        {
+                            <input id="availableGoods" class="form-check-input" type="checkbox" />
+                        }
+                    </div>
+                </div>
+            </div>
+            <div style="display:flex; flex-direction:column; width:60px; height:110px; justify-content:space-between;">
+                <button onclick="SubmitFilters()" type="button" class="form-icon btn btn-primary" style="height:50px; width:60px; margin-bottom:0px;"><span class="material-symbols-outlined">done_outline</span></button>
+                <button type="button" onclick="ResetFilters()" class="form-icon btn btn-primary" style="height:50px; width:60px;"><span class="material-symbols-outlined" style="font-size:27px;">restart_alt</span></button>
+            </div>
+        </div>
+    </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="products">
+
+
+        @if (Model != null)
+        {
+            foreach (var item in Model as List<BaziMarket2.Models.ViewModel.ProductsViewModel>)
+            {
+                <div class="products-product">
+                    <div class="product-lables">
+                        @if (item.InStockCount < 1)
+                        {
+                            <p class="product-lables-available">ناموجود</p>
+                        }
+                        @if (item.Discount != null)
+                        {
+                            <p class="product-lables-discount" style="font-size:16px;">@item.Discount %</p>
+                        }
+                    </div>
+                    <a href="https://localhost:44322/Product/Product/@item.EncodeName()" class="product-Image">
+                        <img src="~/Images/product-image/@item.Image" alt="">
+                    </a>
+                    <div class="product-Title">
+                        <a class="products-product-a" href="https://localhost:44322/Product/Product/@item.EncodeName()">@item.Name</a>
+                    </div>
+                    <div class="product-Price">
+                        @if (item.Discount == null)
+                        {
+                            <p class="product-Price-New"><b>@item.Price.DevideMoneyNumber()</b>&ensp;تومان</p>
+                        }
+                        else
+                        {
+                            <p class="product-Price-Old"><ins>@item.Price.DevideMoneyNumber()</ins> تومان</p>
+                            <p class="product-Price-New"><b>@item.GetPrice().DevideMoneyNumber()</b> تومان</p>
+                        }
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <h2>
+                Not Found
+            </h2>
+        }
+
+
+    </div>
+
+
+
+
+    <input type="hidden" id="V-itemCount" value="@ViewBag.ItemCount" />
+    <input type="hidden" id="V-categoryId" value="@ViewBag.CategoryId" />
+    <input type="hidden" id="V-sort" value="@ViewBag.Sort" />
+    <input type="hidden" id="V-sPrice" value="@ViewBag.SPrice" />
+    <input type="hidden" id="V-ePrice" value="@ViewBag.EPrice" />
+    <input type="hidden" id="V-availableGoods" value="@ViewBag.AvailableGoods" />
+
+
+
+
+
+
+
+
+
+    <div class="pagination">
+        @if (ViewBag.CurrentPage - 1 >= 1)
+        {
+            int j = ViewBag.CurrentPage - 1;
+            <a onclick="GoPage(page = @j)" style="cursor:pointer">&raquo;</a>
+        }
+        else
+        {
+            <a>&raquo;</a>
+        }
+        @for (int i = 1; i <= ViewBag.PageCount; i++)
+        {
+            if (i == ViewBag.CurrentPage)
+            {
+                <a onclick="GoPage(page = @i)" class="active">@i</a>
+            }
+            else
+            {
+                <a onclick="GoPage(page = @i)" style="cursor:pointer">@i</a>
+            }
+        }
+        @if (ViewBag.CurrentPage + 1 <= ViewBag.PageCount)
+        {
+            int j = ViewBag.CurrentPage + 1;
+            <a onclick="GoPage(page = @j)" style="cursor:pointer">&laquo;</a>
+        }
+        else
+        {
+            <a>&laquo;</a>
+        }
+    </div>
+
+
+
+</div>
+
+
+
+

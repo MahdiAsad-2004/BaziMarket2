@@ -1,0 +1,75 @@
+﻿@model BaziMarket2.Models.ViewModel.PictureAddViewModel
+
+
+<div class="card-header" id="p_Picture">
+    <h3 style="font-size: 22px;" class="card-title">تصاویر</h3>
+
+    <div class="card-tools">
+        <button type="button" class="btn btn-tool" data-widget="collapse" style="width: 100px;">
+            <span style="font-size: 22px; color: #007bff;" class="material-symbols-outlined">add</span>
+        </button>
+    </div>
+    <!-- /.card-tools -->
+</div>
+<!-- /.card-header -->
+<div class="card-body">
+    <div class="row">
+        <form id="formPicture" class="form col-4" action="">
+            <input id="ProductId" name="ProductId" hidden type="number" value="@ViewBag.ProductId"/>
+            <div class="form-group">
+                <label for="">تصویر</label>
+                <input class="form-control input-validation-error" type="file" name="filePicture" id="filePicture" required data-val-required=" عنوان توضیح ضروری است " data-val="true">
+                <span class="field-validation-valid text-danger" data-valmsg-for="filePicture" data-valmsg-replace="true"></span>
+                @*<input class="form-control text-box single-line input-validation-error" data-val="true" data-val-length="عنوان باید حداقل 2 و حداکثر 30 کاراکتر باشد" data-val-length-max="30" data-val-length-min="2"  id="Title" name="Title" placeholder="عنوان توضیح را وارد کنید" type="text" value="" aria-describedby="Title-error" aria-invalid="true">*@
+                <span id="file_error_Picture" class="text-danger"></span>
+                <span id="file_error1_Picture" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="">شماره تصویر</label>
+                <select class="form-control" type="number" name="Index" id="Index">
+                    @foreach (var item in ViewData["Indexes"] as List<int>)
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label style="color: white;" for="">/ تصویر</label>
+                <input onclick="ResetFormPicture()" class="form-control btn btn-warning" type="reset" value="دوباره نویسی" />
+            </div>
+            <div class="form-group">
+                <label style="color: white;" for="">/ تصویر</label>
+                <input id="submitPicture" onclick="SubmitFormPicture()" class="form-control btn btn-success" type="submit" value="ثبت" />
+            </div>
+        </form>
+
+        <div class="card col-7" style="margin-right: 50px;">
+            <div style="background-color: honeydew;" class="card-header">
+                <h3 style="font-size: 17px;" class="card-title">تصاویر محصول</h3>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <tr>
+                        <th>تصویر</th>
+                        <th>شماره</th>
+                        <th>حذف</th>
+                    </tr>
+                    @if (ViewData["Pictures"] != null)
+                    {
+                        foreach (var item in ViewData["Pictures"] as List<BaziMarket2.Models.Picture>)
+                        {
+                            <tr>
+                                <td class="col-7"><img style="width: 110px; height: 120px;" src="~/Images/product-pictures/@item.Name" alt=""></td>
+                                <td class="col-2">@item.Index</td>
+                                <td class="col-3"><button onclick="DeletePicture(Id = @item.Id)" class="btn" style="background-color: inherit; width: 30px; height: 30px;"><span style="color: red; font-size: 30px;" class="material-symbols-outlined">delete_forever</span></button></td>
+                            </tr>
+                        }
+                    }
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.card-body -->
